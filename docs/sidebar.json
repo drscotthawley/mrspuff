@@ -1,6 +1,7 @@
 {
   "mrspuff": {
     "Overview": "/",
-    "core": "core.html"
+    "core": "core.html",
+    "Card": "card.html"
   }
 }

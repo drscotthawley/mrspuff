@@ -3,10 +3,12 @@
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
 index = {"say_hello": "00_core.ipynb",
-         "Card": "01_card.ipynb"}
+         "Card": "01_card.ipynb",
+         "Deck": "02_deck.ipynb"}
 
 modules = ["core.py",
-           "card.py"]
+           "card.py",
+           "deck.py"]
 
 doc_url = "https://drscotthawley.github.io/mrspuff/"
 

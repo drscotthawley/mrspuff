@@ -2,6 +2,7 @@
   "mrspuff": {
     "Overview": "/",
     "core": "core.html",
-    "Card": "card.html"
+    "Card": "card.html",
+    "Deck": "deck.html"
   }
 }

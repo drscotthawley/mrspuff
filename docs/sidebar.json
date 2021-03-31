@@ -3,6 +3,7 @@
     "Overview": "/",
     "core": "core.html",
     "Card": "card.html",
-    "Deck": "deck.html"
+    "Deck": "deck.html",
+    "scrape": "scrape.html"
   }
 }

@@ -41,23 +41,6 @@ nb_path: "03_scrape.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#from kora.selenium import wd</span>
-
-<span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">kora.selenium</span> <span class="kn">import</span> <span class="n">wd</span>
-<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">subprocess</span> 
-    <span class="n">subprocess</span><span class="o">.</span><span class="n">check_call</span><span class="p">([</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="s2">&quot;-m&quot;</span><span class="p">,</span> <span class="s2">&quot;pip&quot;</span><span class="p">,</span> <span class="s2">&quot;install&quot;</span><span class="p">,</span> <span class="s2">&quot;kora&quot;</span><span class="p">])</span>
-    <span class="kn">from</span> <span class="nn">kora.selenium</span> <span class="kn">import</span> <span class="n">wd</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
 
 </div>
     {% endraw %}
@@ -71,120 +54,21 @@ nb_path: "03_scrape.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
 
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">fetch_image_urls</span><span class="p">(</span><span class="n">query</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">max_links_to_fetch</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">wd</span><span class="p">:</span><span class="n">wd</span><span class="p">,</span> <span class="n">sleep_between_interactions</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">scroll_to_end</span><span class="p">(</span><span class="n">wd_old</span><span class="p">):</span>
-        <span class="n">wd</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s2">&quot;window.scrollTo(0, document.body.scrollHeight);&quot;</span><span class="p">)</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">sleep_between_interactions</span><span class="p">)</span>    
-    
-    <span class="c1"># build the google query</span>
-    <span class="n">search_url</span> <span class="o">=</span> <span class="s2">&quot;https://www.google.com/search?safe=off&amp;site=&amp;tbm=isch&amp;source=hp&amp;q=</span><span class="si">{q}</span><span class="s2">&amp;oq=</span><span class="si">{q}</span><span class="s2">&amp;gs_l=img&quot;</span>
+<div class="output_wrapper">
+<div class="output">
 
-    <span class="c1"># load the page</span>
-    <span class="n">wd</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">search_url</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="n">query</span><span class="p">))</span>
-
-    <span class="n">image_urls</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-    <span class="n">image_count</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">results_start</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">while</span> <span class="n">image_count</span> <span class="o">&lt;</span> <span class="n">max_links_to_fetch</span><span class="p">:</span>
-        <span class="n">scroll_to_end</span><span class="p">(</span><span class="n">wd</span><span class="p">)</span>
-
-        <span class="c1"># get all image thumbnail results</span>
-        <span class="n">thumbnail_results</span> <span class="o">=</span> <span class="n">wd</span><span class="o">.</span><span class="n">find_elements_by_css_selector</span><span class="p">(</span><span class="s2">&quot;img.Q4LuWd&quot;</span><span class="p">)</span>
-        <span class="n">number_results</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">thumbnail_results</span><span class="p">)</span>
-        
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">query</span><span class="si">}</span><span class="s2">: Found: </span><span class="si">{</span><span class="n">number_results</span><span class="si">}</span><span class="s2"> search results. Extracting links from </span><span class="si">{</span><span class="n">results_start</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">number_results</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        
-        <span class="k">for</span> <span class="n">img</span> <span class="ow">in</span> <span class="n">thumbnail_results</span><span class="p">[</span><span class="n">results_start</span><span class="p">:</span><span class="n">number_results</span><span class="p">]:</span>
-            <span class="c1"># try to click every thumbnail such that we can get the real image behind it</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">img</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
-                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">sleep_between_interactions</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-                <span class="k">continue</span>
-
-            <span class="c1"># extract image urls    </span>
-            <span class="n">actual_images</span> <span class="o">=</span> <span class="n">wd</span><span class="o">.</span><span class="n">find_elements_by_css_selector</span><span class="p">(</span><span class="s1">&#39;img.n3VNCb&#39;</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">actual_image</span> <span class="ow">in</span> <span class="n">actual_images</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">actual_image</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="s1">&#39;http&#39;</span> <span class="ow">in</span> <span class="n">actual_image</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">):</span>
-                    <span class="n">image_urls</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">actual_image</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">))</span>
-
-            <span class="n">image_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">image_urls</span><span class="p">)</span>
-
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">image_urls</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">max_links_to_fetch</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">query</span><span class="si">}</span><span class="s2">: Found: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">image_urls</span><span class="p">)</span><span class="si">}</span><span class="s2"> image links, done!&quot;</span><span class="p">)</span>
-                <span class="k">break</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">query</span><span class="si">}</span><span class="s2">: Found:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">image_urls</span><span class="p">),</span> <span class="s2">&quot;image links, looking for more ...&quot;</span><span class="p">)</span>
-            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
-            <span class="k">return</span>
-            <span class="n">load_more_button</span> <span class="o">=</span> <span class="n">wd</span><span class="o">.</span><span class="n">find_element_by_css_selector</span><span class="p">(</span><span class="s2">&quot;.mye4qd&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">load_more_button</span><span class="p">:</span>
-                <span class="n">wd</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s2">&quot;document.querySelector(&#39;.mye4qd&#39;).click();&quot;</span><span class="p">)</span>
-
-        <span class="c1"># move the result startpoint further down</span>
-        <span class="n">results_start</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">thumbnail_results</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">image_urls</span>
+<div class="output_area">
 
 
-<span class="k">def</span> <span class="nf">download_and_save</span><span class="p">(</span><span class="n">folder_path</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="n">success</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">image_content</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">content</span>
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="fetch_image_urls" class="doc_header"><code>fetch_image_urls</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/scrape.py#L12" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>fetch_image_urls</code>(<strong><code>query</code></strong>:<code>str</code>, <strong><code>max_links_to_fetch</code></strong>:<code>int</code>, <strong><code>wd</code></strong>:<code>WebDriver (session="9a6dd9ab5943892f1ebe4b007f53d75c")&gt;</code>, <strong><code>sleep_between_interactions</code></strong>:<code>int</code>=<em><code>1</code></em>)</p>
+</blockquote>
 
-    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ERROR - Could not download </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">image_file</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">image_content</span><span class="p">)</span>
-        <span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">image_file</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">&#39;RGB&#39;</span><span class="p">)</span>
-        <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_path</span><span class="p">,</span><span class="n">hashlib</span><span class="o">.</span><span class="n">sha1</span><span class="p">(</span><span class="n">image_content</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()[:</span><span class="mi">10</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;.jpg&#39;</span><span class="p">)</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">image</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s2">&quot;JPEG&quot;</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="mi">85</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SUCCESS - saved </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2"> - as </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="n">success</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ERROR - Could not save </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">success</span>
-    
+</div>
 
-<span class="k">def</span> <span class="nf">search_and_download</span><span class="p">(</span><span class="n">search_term</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">target_path</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;./images&#39;</span><span class="p">,</span> <span class="n">number_images</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    
-    <span class="n">target_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">target_path</span><span class="p">,</span><span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">search_term</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)))</span>
+</div>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">target_folder</span><span class="p">):</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">target_folder</span><span class="p">)</span>
-
-    <span class="n">try_urls</span> <span class="o">=</span> <span class="n">fetch_image_urls</span><span class="p">(</span><span class="n">search_term</span><span class="p">,</span> <span class="n">number_images</span><span class="p">,</span> <span class="n">wd</span><span class="o">=</span><span class="n">wd</span><span class="p">,</span> <span class="n">sleep_between_interactions</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-
-    <span class="n">count</span><span class="p">,</span> <span class="n">urls</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[]</span>      <span class="c1"># save count of success and urls whose images were successfully saved</span>
-    <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">try_urls</span><span class="p">:</span>
-        <span class="n">rc</span> <span class="o">=</span> <span class="n">download_and_save</span><span class="p">(</span><span class="n">target_folder</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">rc</span><span class="p">:</span>
-            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">urls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-    
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">search_term</span><span class="si">}</span><span class="s2">: Expected </span><span class="si">{</span><span class="n">number_images</span><span class="si">}</span><span class="s2">, succeeded at saving </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">count</span><span class="p">,</span> <span class="n">urls</span> 
-
-
-<span class="c1"># work inprogress</span>
-<span class="k">class</span> <span class="nc">Category</span><span class="p">():</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">images</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">urls</span> <span class="o">=</span> <span class="p">[]</span>
-
-    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">ni</span><span class="p">,</span> <span class="n">nu</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">images</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">urls</span><span class="p">)</span>
-        <span class="k">assert</span> <span class="n">ni</span><span class="o">==</span><span class="n">nu</span> 
-        <span class="k">return</span> <span class="n">ni</span>
-</pre></div>
-
-    </div>
 </div>
 </div>
 
@@ -202,7 +86,86 @@ nb_path: "03_scrape.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="img_scrape" class="doc_header"><code>img_scrape</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/scrape.py#L13" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>img_scrape</code>(<strong><code>search_terms</code></strong>:<code>list</code>, <strong><code>target_path</code></strong>:<code>str</code>=<em><code>'./images'</code></em>, <strong><code>number_images</code></strong>:<code>int</code>=<em><code>10</code></em>, <strong><code>verbose</code></strong>:<code>bool</code>=<em><code>True</code></em>)</p>
+<h4 id="download_and_save" class="doc_header"><code>download_and_save</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/scrape.py#L68" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>download_and_save</code>(<strong><code>folder_path</code></strong>:<code>str</code>, <strong><code>url</code></strong>:<code>str</code>, <strong><code>verbose</code></strong>:<code>bool</code>=<em><code>True</code></em>)</p>
+</blockquote>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="search_and_download" class="doc_header"><code>search_and_download</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/scrape.py#L89" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>search_and_download</code>(<strong><code>search_term</code></strong>:<code>str</code>, <strong><code>target_path</code></strong>:<code>str</code>=<em><code>'./images'</code></em>, <strong><code>number_images</code></strong>:<code>int</code>=<em><code>10</code></em>, <strong><code>verbose</code></strong>:<code>bool</code>=<em><code>True</code></em>)</p>
+</blockquote>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="Category" class="doc_header"><code>class</code> <code>Category</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/scrape.py#L110" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Category</code>()</p>
+</blockquote>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="img_scrape" class="doc_header"><code>img_scrape</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/scrape.py#L131" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>img_scrape</code>(<strong><code>search_terms</code></strong>:<code>list</code>, <strong><code>target_path</code></strong>:<code>str</code>=<em><code>'./.images'</code></em>, <strong><code>number_images</code></strong>:<code>int</code>=<em><code>10</code></em>, <strong><code>verbose</code></strong>:<code>bool</code>=<em><code>True</code></em>)</p>
 </blockquote>
 
 </div>
@@ -243,13 +206,24 @@ nb_path: "03_scrape.ipynb"
 <span class="c1">#search_terms = [&quot;smart person&quot;, &quot;stupid person&quot;]          # this is going to be a bad idea! (ethics)</span>
 
 <span class="n">number_images</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">target_path</span> <span class="o">=</span> <span class="s1">&#39;./images&#39;</span>            <span class="c1"># where to save to</span>
+<span class="n">target_path</span> <span class="o">=</span> <span class="s1">&#39;./.images&#39;</span>            <span class="c1"># where to save to</span>
+</pre></div>
 
-<span class="o">!</span>rm -rf <span class="nv">$target_path</span>                # clear out target_path first
+    </div>
+</div>
+</div>
 
-<span class="c1"># grab everything! </span>
+</div>
+    {% endraw %}
 
-<span class="n">dataset</span> <span class="o">=</span> <span class="n">img_scrape</span><span class="p">(</span><span class="n">search_terms</span><span class="p">,</span> <span class="n">target_path</span><span class="o">=</span><span class="n">target_path</span><span class="p">,</span> <span class="n">number_images</span><span class="o">=</span><span class="n">number_images</span><span class="p">)</span>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dataset</span> <span class="o">=</span> <span class="n">img_scrape</span><span class="p">(</span><span class="n">search_terms</span><span class="p">,</span> <span class="n">target_path</span><span class="o">=</span><span class="n">target_path</span><span class="p">,</span> <span class="n">number_images</span><span class="o">=</span><span class="n">number_images</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -265,7 +239,45 @@ nb_path: "03_scrape.ipynb"
 <pre>
 dog: Found: 100 search results. Extracting links from 0:100
 dog: Found: 10 image links, done!
-SUCCESS - saved https://images.theconversation.com/files/319375/original/file-20200309-118956-1cqvm6j.jpg?ixlib=rb-1.1.0&amp;q=45&amp;auto=format&amp;w=1200&amp;h=900.0&amp;fit=crop - as ./images/dog/3a9e97b232.jpg
+SUCCESS - saved https://images.theconversation.com/files/319375/original/file-20200309-118956-1cqvm6j.jpg?ixlib=rb-1.1.0&amp;q=45&amp;auto=format&amp;w=1200&amp;h=900.0&amp;fit=crop - as ./.images/dog/3a9e97b232.jpg
+SUCCESS - saved https://www.sciencemag.org/sites/default/files/styles/inline__450w__no_aspect/public/dogs_1280p_0.jpg?itok=4t_1_fSJ - as ./.images/dog/56f12be619.jpg
+SUCCESS - saved https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/other/dog_cool_summer_slideshow/1800x1200_dog_cool_summer_other.jpg - as ./.images/dog/37f0960b6e.jpg
+SUCCESS - saved https://i.natgeofe.com/n/4f5aaece-3300-41a4-b2a8-ed2708a0a27c/domestic-dog_thumb.jpg - as ./.images/dog/4df813f7f1.jpg
+SUCCESS - saved https://i.ytimg.com/vi/MPV2METPeJU/maxresdefault.jpg - as ./.images/dog/b61b601eea.jpg
+SUCCESS - saved https://i.guim.co.uk/img/media/fe1e34da640c5c56ed16f76ce6f994fa9343d09d/0_174_3408_2046/master/3408.jpg?width=1200&amp;height=900&amp;quality=85&amp;auto=format&amp;fit=crop&amp;s=0d3f33fb6aa6e0154b7713a00454c83d - as ./.images/dog/e886dbf2be.jpg
+SUCCESS - saved https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retriever-royalty-free-image-506756303-1560962726.jpg?crop=0.672xw:1.00xh;0.166xw,0&amp;resize=640:* - as ./.images/dog/4fdbeb98ad.jpg
+SUCCESS - saved https://i.guim.co.uk/img/media/684c9d087dab923db1ce4057903f03293b07deac/205_132_1915_1150/master/1915.jpg?width=1200&amp;height=1200&amp;quality=85&amp;auto=format&amp;fit=crop&amp;s=14a95b5026c1567b823629ba35c40aa0 - as ./.images/dog/1bd016f884.jpg
+SUCCESS - saved https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&amp;resize=1200:* - as ./.images/dog/3fb7d7c4ef.jpg
+SUCCESS - saved https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-1100x628.jpg - as ./.images/dog/eafde83cd9.jpg
+dog: Expected 10, succeeded at saving 10.
+
+cat: Found: 100 search results. Extracting links from 0:100
+cat: Found: 10 image links, done!
+SUCCESS - saved https://c.files.bbci.co.uk/12A9B/production/_111434467_gettyimages-1143489763.jpg - as ./.images/cat/72c56919f9.jpg
+SUCCESS - saved https://timesofindia.indiatimes.com/photo/67586673.cms - as ./.images/cat/e0a61ca868.jpg
+SUCCESS - saved https://www.humanesociety.org/sites/default/files/styles/1240x698/public/2018/08/kitten-440379.jpg?h=c8d00152&amp;itok=1fdekAh2 - as ./.images/cat/77554c65d8.jpg
+SUCCESS - saved https://i.guim.co.uk/img/media/8a13052d4db7dcd508af948e5db7b04598e03190/0_294_5616_3370/master/5616.jpg?width=1200&amp;height=1200&amp;quality=85&amp;auto=format&amp;fit=crop&amp;s=bcaa4eed2c1e6dab61c41a61e41433d9 - as ./.images/cat/a5ffbb2606.jpg
+SUCCESS - saved https://i.ytimg.com/vi/jHWKtQHXVJg/maxresdefault.jpg - as ./.images/cat/0bae603340.jpg
+SUCCESS - saved https://static.toiimg.com/photo/msid-76940605/76940605.jpg?758247 - as ./.images/cat/e98fd0f834.jpg
+SUCCESS - saved https://i.ytimg.com/vi/uHKfrz65KSU/maxresdefault.jpg - as ./.images/cat/e495c20532.jpg
+SUCCESS - saved https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/other/cat_relaxing_on_patio_other/1800x1200_cat_relaxing_on_patio_other.jpg - as ./.images/cat/8a43684728.jpg
+SUCCESS - saved https://images.theconversation.com/files/350865/original/file-20200803-24-50u91u.jpg?ixlib=rb-1.1.0&amp;q=45&amp;auto=format&amp;w=1200&amp;h=675.0&amp;fit=crop - as ./.images/cat/00a6e9ddc2.jpg
+ERROR - Could not save https://www.rd.com/wp-content/uploads/2019/05/American-shorthair-cat-scaled.jpg - cannot identify image file &lt;_io.BytesIO object at 0x7f73f079bf10&gt;
+cat: Expected 10, succeeded at saving 9.
+
+horse: Found: 100 search results. Extracting links from 0:100
+horse: Found: 10 image links, done!
+SUCCESS - saved https://imgk.timesnownews.com/story/Dreaming_about_a_horse.jpg?tr=w-600,h-450 - as ./.images/horse/22e31d3c18.jpg
+SUCCESS - saved https://cdn.britannica.com/s:690x388,c:crop/76/107376-050-E3088B68/types-horse-markings.jpg - as ./.images/horse/99a2fe09a1.jpg
+SUCCESS - saved https://thumbor.forbes.com/thumbor/fit-in/1200x0/filters%3Aformat%28jpg%29/https%3A%2F%2Fspecials-images.forbesimg.com%2Fimageserve%2F5f664f1ec2191c793cf3bd8d%2F0x0.jpg - as ./.images/horse/eee46f7aa3.jpg
+SUCCESS - saved https://horsej-intellectsolutio.netdna-ssl.com/cdn/farfuture/SVD1oaF2ITMncqEBjp-F4wIPN3Iqw8M25m7mvjCT1-Q/mtime:1543626961/files/styles/article_large/public/pictures-videos/blogs/shutterstock_250751620_-_grigorita_ko_-_web.jpg?itok=dr2UJXfv - as ./.images/horse/f671ed9f0e.jpg
+SUCCESS - saved https://images.theconversation.com/files/250401/original/file-20181213-110249-1czg7z.jpg?ixlib=rb-1.1.0&amp;q=45&amp;auto=format&amp;w=1200&amp;h=1200.0&amp;fit=crop - as ./.images/horse/1e01a5a766.jpg
+SUCCESS - saved https://blogs.gartner.com/debbie_wilson/files/2019/10/horse.jpg - as ./.images/horse/616a7424e4.jpg
+SUCCESS - saved https://media.gq.com/photos/56e71c0b14cbe0637b261d7f/4:3/w_2260,h_1695,c_limit/horseinsuit2.jpg - as ./.images/horse/c2f404477d.jpg
+ERROR - Could not save https://www.recoveryranch.com/wp-content/uploads/2020/03/Horse-1200x900.jpg - cannot identify image file &lt;_io.BytesIO object at 0x7f73f079bba0&gt;
+SUCCESS - saved https://res.cloudinary.com/dk-find-out/image/upload/q_80,w_1920,f_auto/MA_00600259_vpf1m0.jpg - as ./.images/horse/fe8773fedb.jpg
+SUCCESS - saved https://www.treehugger.com/thmb/4POnzxta535OuxqNIRBWCUzK39M=/768x0/filters:no_upscale():max_bytes(150000):strip_icc()/horse.primary-e9a47e1c486c4fb7bf729e05b59cf0df.jpg - as ./.images/horse/442ed9a65e.jpg
+horse: Expected 10, succeeded at saving 9.
 </pre>
 </div>
 </div>
@@ -290,10 +302,34 @@ SUCCESS - saved https://images.theconversation.com/files/319375/original/file-20
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>ls ./images/*
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>ls <span class="o">{</span>target_path<span class="o">}</span>/*
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>./.images/cat:
+00a6e9ddc2.jpg	72c56919f9.jpg	8a43684728.jpg	e0a61ca868.jpg	e98fd0f834.jpg
+0bae603340.jpg	77554c65d8.jpg	a5ffbb2606.jpg	e495c20532.jpg
+
+./.images/dog:
+1bd016f884.jpg	3a9e97b232.jpg	4df813f7f1.jpg	56f12be619.jpg	e886dbf2be.jpg
+37f0960b6e.jpg	3fb7d7c4ef.jpg	4fdbeb98ad.jpg	b61b601eea.jpg	eafde83cd9.jpg
+
+./.images/horse:
+1e01a5a766.jpg	442ed9a65e.jpg	99a2fe09a1.jpg	eee46f7aa3.jpg	fe8773fedb.jpg
+22e31d3c18.jpg	616a7424e4.jpg	c2f404477d.jpg	f671ed9f0e.jpg
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -315,10 +351,8 @@ SUCCESS - saved https://images.theconversation.com/files/319375/original/file-20
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="kn">import</span> <span class="n">interact</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
-<span class="kn">import</span> <span class="nn">glob</span>
 
 <span class="c1"># Load images from disk</span>
 <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">search_terms</span><span class="p">:</span>
@@ -332,6 +366,53 @@ SUCCESS - saved https://images.theconversation.com/files/319375/original/file-20
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Loaded 10 images for dog
+Loaded 9 images for cat
+Loaded 9 images for horse
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="browse_images" class="doc_header"><code>browse_images</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/scrape.py#L148" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>browse_images</code>(<strong><code>dataset</code></strong>)</p>
+</blockquote>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
 </div>
     {% endraw %}
 
@@ -342,20 +423,24 @@ SUCCESS - saved https://images.theconversation.com/files/319375/original/file-20
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">browse_images</span><span class="p">(</span><span class="n">dataset</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Select the class from the drop-down, and the image by moving the slider with the mouse or the arrow keys.&quot;</span><span class="p">)</span>
-    <span class="nd">@interact</span><span class="p">(</span><span class="n">term</span><span class="o">=</span><span class="n">search_terms</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">_browse_images</span><span class="p">(</span><span class="n">term</span><span class="p">):</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="n">term</span><span class="p">])</span>
-        <span class="k">def</span> <span class="nf">view_image</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="n">term</span><span class="p">]</span><span class="o">.</span><span class="n">images</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray_r</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-        <span class="n">interact</span><span class="p">(</span><span class="n">view_image</span><span class="p">,</span> <span class="n">i</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
-
-<span class="n">browse_images</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">browse_images</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Select the class from the drop-down, and the image by moving the slider with the mouse or the arrow keys.
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -373,90 +458,429 @@ SUCCESS - saved https://images.theconversation.com/files/319375/original/file-20
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="get_pca_xy" class="doc_header"><code>get_pca_xy</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/scrape.py#L166" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_pca_xy</code>()</p>
+</blockquote>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="plot_hover" class="doc_header"><code>plot_hover</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/scrape.py#L190" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>plot_hover</code>(<strong><code>dataset</code></strong>)</p>
+</blockquote>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">kora.bokeh</span> <span class="kn">import</span> <span class="n">figure</span>
-<span class="kn">from</span> <span class="nn">bokeh.plotting</span> <span class="kn">import</span> <span class="n">ColumnDataSource</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">show</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">linalg</span> <span class="k">as</span> <span class="n">LA</span>
-
-<span class="c1"># We&#39;ll use PCA to get x &amp; y coordinates at which to plot data points</span>
-<span class="c1">#  For that, we need to crop/resize the images to make a uniform array shape</span>
-<span class="c1">#  Note, for now we&#39;re not cropping, so the resize skews the images!</span>
-<span class="k">def</span> <span class="nf">get_pca_xy</span><span class="p">():</span>
-
-    <span class="k">def</span> <span class="nf">sorted_eig</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>  <span class="c1"># returns sorted eigenvalues (&amp; their corresponding eignevectors) of A</span>
-        <span class="n">lambdas</span><span class="p">,</span> <span class="n">vecs</span> <span class="o">=</span> <span class="n">LA</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
-        <span class="c1"># Next line just sorts values &amp; vectors together in order of decreasing eigenvalues</span>
-        <span class="n">lambdas</span><span class="p">,</span> <span class="n">vecs</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">lambdas</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">vecs</span><span class="o">.</span><span class="n">T</span><span class="p">)),</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">lambdas</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vecs</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># un-doing the list-casting from the previous line</span>
-
-    <span class="c1"># In the next line, try putting &quot;ImageOps.grayscale( )&quot; around the &quot;img&quot; in front of the &quot;.resize&quot; ;-) </span>
-    <span class="n">imlist</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span> <span class="n">img</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="mi">18</span><span class="p">,</span> <span class="mi">18</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">ANTIALIAS</span><span class="p">))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="c1"># resize to tiny, then flatten to 1D</span>
-        <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">search_terms</span> <span class="k">for</span> <span class="n">img</span> <span class="ow">in</span> <span class="n">dataset</span><span class="p">[</span><span class="n">term</span><span class="p">]</span><span class="o">.</span><span class="n">images</span><span class="p">]</span>
-    <span class="n">images_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">imlist</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;images_array.shape = &quot;</span><span class="p">,</span><span class="n">images_array</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-
-    <span class="n">im_cov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">images_array</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>   <span class="c1"># get covariance matrix</span>
-    <span class="n">lambdas</span><span class="p">,</span> <span class="n">vecs</span> <span class="o">=</span> <span class="n">sorted_eig</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">im_cov</span><span class="p">))</span>  <span class="c1"># get the eigenvectors</span>
-    <span class="n">W</span> <span class="o">=</span> <span class="n">vecs</span><span class="p">[:,</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>                      <span class="c1"># Grab the 2 most significant dimensions</span>
-    <span class="n">proj_img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">images_array</span> <span class="o">@</span> <span class="n">W</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>  <span class="c1"># Last step of PCA: projection </span>
-
-    <span class="n">xs</span><span class="o">=</span><span class="n">proj_img</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># this is for both classes together as one long array</span>
-    <span class="n">ys</span><span class="o">=</span><span class="n">proj_img</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> 
-
-
-<span class="k">def</span> <span class="nf">plot_hover</span><span class="p">(</span><span class="n">dataset</span><span class="p">):</span>
-    <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">get_pca_xy</span><span class="p">()</span>
-
-    <span class="n">output_file</span><span class="p">(</span><span class="s2">&quot;toolbar.html&quot;</span><span class="p">)</span>
-
-    <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span><span class="s2">&quot;red&quot;</span><span class="p">,</span><span class="s2">&quot;green&quot;</span><span class="p">]</span>
-
-    <span class="n">TOOLTIPS</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        &lt;div&gt;</span>
-<span class="s2">            &lt;div&gt;</span>
-<span class="s2">                &lt;img</span>
-<span class="s2">                    src=&quot;@imgs&quot; height=&quot;50&quot; alt=&quot;@imgs&quot; </span>
-<span class="s2">                    style=&quot;float: left; margin: 0px 15px 15px 0px;&quot;</span>
-<span class="s2">                    border=&quot;2&quot;</span>
-<span class="s2">                &gt;&lt;/img&gt;</span>
-<span class="s2">            &lt;/div&gt;</span>
-<span class="s2">            &lt;div&gt;</span>
-<span class="s2">                &lt;span style=&quot;font-size: 17px; font-weight: bold;&quot;&gt;@desc&lt;/span&gt;</span>
-<span class="s2">                &lt;span style=&quot;font-size: 15px; color: #966;&quot;&gt;[$index]&lt;/span&gt;</span>
-<span class="s2">            &lt;/div&gt;</span>
-<span class="s2">            &lt;!---commenting-out coordinate values &lt;div&gt;</span>
-<span class="s2">                &lt;span style=&quot;font-size: 10px; color: #696;&quot;&gt;($x, $y)&lt;/span&gt;</span>
-<span class="s2">            &lt;/div&gt; --&gt;</span>
-<span class="s2">        &lt;/div&gt;</span>
-<span class="s2">    &quot;&quot;&quot;</span>
-
-    <span class="n">p</span> <span class="o">=</span> <span class="n">figure</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span><span class="mi">400</span><span class="p">,</span>  <span class="n">tooltips</span><span class="o">=</span><span class="n">TOOLTIPS</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Mouse over the dots&quot;</span><span class="p">)</span>
-
-    <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>    <span class="c1"># where to read from x &amp; y arrays</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">term</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">search_terms</span><span class="p">):</span>
-
-        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="n">term</span><span class="p">]</span><span class="o">.</span><span class="n">urls</span><span class="p">)</span>  <span class="c1"># TODO: stop using full image urls, better to use thumbnails</span>
-
-        <span class="c1">#x, y = np.random.rand(n)+i/2, np.random.rand(n) # just random points for now</span>
-        <span class="n">x</span><span class="p">,</span> <span class="n">y</span>  <span class="o">=</span> <span class="n">xs</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">start</span><span class="o">+</span><span class="n">n</span><span class="p">],</span> <span class="n">ys</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">start</span><span class="o">+</span><span class="n">n</span><span class="p">]</span>
-
-        <span class="n">source</span> <span class="o">=</span> <span class="n">ColumnDataSource</span><span class="p">(</span> <span class="n">data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="p">[</span><span class="n">term</span><span class="p">]</span><span class="o">*</span><span class="n">n</span><span class="p">,</span> 
-            <span class="n">imgs</span><span class="o">=</span><span class="n">dataset</span><span class="p">[</span><span class="n">term</span><span class="p">]</span><span class="o">.</span><span class="n">urls</span><span class="p">)</span> <span class="p">)</span>
-
-        <span class="n">p</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">line_color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">fill_color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">)</span>
-        <span class="n">start</span> <span class="o">+=</span> <span class="n">n</span> 
-
-    <span class="c1">#show(p)</span>
-    <span class="k">return</span> <span class="n">p</span>
-    
-<span class="n">plot_hover</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_hover</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>images_array.shape =  (28, 972)
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/home/shawley/anaconda3/lib/python3.6/site-packages/ipykernel_launcher.py:26: ComplexWarning: Casting complex values to real discards the imaginary part
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+
+<div id="d8208255-a41a-4264-980e-638263d92eb1"></div>
+<div class="output_subarea output_javascript ">
+<script type="text/javascript">
+var element = $('#d8208255-a41a-4264-980e-638263d92eb1');
+
+(function(root) {
+  function now() {
+    return new Date();
+  }
+
+  var force = true;
+
+  if (typeof root._bokeh_onload_callbacks === "undefined" || force === true) {
+    root._bokeh_onload_callbacks = [];
+    root._bokeh_is_loading = undefined;
+  }
+
+  var JS_MIME_TYPE = 'application/javascript';
+  var HTML_MIME_TYPE = 'text/html';
+  var EXEC_MIME_TYPE = 'application/vnd.bokehjs_exec.v0+json';
+  var CLASS_NAME = 'output_bokeh rendered_html';
+
+  /**
+   * Render data to the DOM node
+   */
+  function render(props, node) {
+    var script = document.createElement("script");
+    node.appendChild(script);
+  }
+
+  /**
+   * Handle when an output is cleared or removed
+   */
+  function handleClearOutput(event, handle) {
+    var cell = handle.cell;
+
+    var id = cell.output_area._bokeh_element_id;
+    var server_id = cell.output_area._bokeh_server_id;
+    // Clean up Bokeh references
+    if (id != null && id in Bokeh.index) {
+      Bokeh.index[id].model.document.clear();
+      delete Bokeh.index[id];
+    }
+
+    if (server_id !== undefined) {
+      // Clean up Bokeh references
+      var cmd = "from bokeh.io.state import curstate; print(curstate().uuid_to_server['" + server_id + "'].get_sessions()[0].document.roots[0]._id)";
+      cell.notebook.kernel.execute(cmd, {
+        iopub: {
+          output: function(msg) {
+            var id = msg.content.text.trim();
+            if (id in Bokeh.index) {
+              Bokeh.index[id].model.document.clear();
+              delete Bokeh.index[id];
+            }
+          }
+        }
+      });
+      // Destroy server and session
+      var cmd = "import bokeh.io.notebook as ion; ion.destroy_server('" + server_id + "')";
+      cell.notebook.kernel.execute(cmd);
+    }
+  }
+
+  /**
+   * Handle when a new output is added
+   */
+  function handleAddOutput(event, handle) {
+    var output_area = handle.output_area;
+    var output = handle.output;
+
+    // limit handleAddOutput to display_data with EXEC_MIME_TYPE content only
+    if ((output.output_type != "display_data") || (!output.data.hasOwnProperty(EXEC_MIME_TYPE))) {
+      return
+    }
+
+    var toinsert = output_area.element.find("." + CLASS_NAME.split(' ')[0]);
+
+    if (output.metadata[EXEC_MIME_TYPE]["id"] !== undefined) {
+      toinsert[toinsert.length - 1].firstChild.textContent = output.data[JS_MIME_TYPE];
+      // store reference to embed id on output_area
+      output_area._bokeh_element_id = output.metadata[EXEC_MIME_TYPE]["id"];
+    }
+    if (output.metadata[EXEC_MIME_TYPE]["server_id"] !== undefined) {
+      var bk_div = document.createElement("div");
+      bk_div.innerHTML = output.data[HTML_MIME_TYPE];
+      var script_attrs = bk_div.children[0].attributes;
+      for (var i = 0; i < script_attrs.length; i++) {
+        toinsert[toinsert.length - 1].firstChild.setAttribute(script_attrs[i].name, script_attrs[i].value);
+      }
+      // store reference to server id on output_area
+      output_area._bokeh_server_id = output.metadata[EXEC_MIME_TYPE]["server_id"];
+    }
+  }
+
+  function register_renderer(events, OutputArea) {
+
+    function append_mime(data, metadata, element) {
+      // create a DOM node to render to
+      var toinsert = this.create_output_subarea(
+        metadata,
+        CLASS_NAME,
+        EXEC_MIME_TYPE
+      );
+      this.keyboard_manager.register_events(toinsert);
+      // Render to node
+      var props = {data: data, metadata: metadata[EXEC_MIME_TYPE]};
+      render(props, toinsert[toinsert.length - 1]);
+      element.append(toinsert);
+      return toinsert
+    }
+
+    /* Handle when an output is cleared or removed */
+    events.on('clear_output.CodeCell', handleClearOutput);
+    events.on('delete.Cell', handleClearOutput);
+
+    /* Handle when a new output is added */
+    events.on('output_added.OutputArea', handleAddOutput);
+
+    /**
+     * Register the mime type and append_mime function with output_area
+     */
+    OutputArea.prototype.register_mime_type(EXEC_MIME_TYPE, append_mime, {
+      /* Is output safe? */
+      safe: true,
+      /* Index of renderer in `output_area.display_order` */
+      index: 0
+    });
+  }
+
+  // register the mime type if in Jupyter Notebook environment and previously unregistered
+  if (root.Jupyter !== undefined) {
+    var events = require('base/js/events');
+    var OutputArea = require('notebook/js/outputarea').OutputArea;
+
+    if (OutputArea.prototype.mime_types().indexOf(EXEC_MIME_TYPE) == -1) {
+      register_renderer(events, OutputArea);
+    }
+  }
+
+  
+  if (typeof (root._bokeh_timeout) === "undefined" || force === true) {
+    root._bokeh_timeout = Date.now() + 5000;
+    root._bokeh_failed_load = false;
+  }
+
+  var NB_LOAD_WARNING = {'data': {'text/html':
+     "<div style='background-color: #fdd'>\n"+
+     "<p>\n"+
+     "BokehJS does not appear to have successfully loaded. If loading BokehJS from CDN, this \n"+
+     "may be due to a slow or bad network connection. Possible fixes:\n"+
+     "</p>\n"+
+     "<ul>\n"+
+     "<li>re-rerun `output_notebook()` to attempt to load from CDN again, or</li>\n"+
+     "<li>use INLINE resources instead, as so:</li>\n"+
+     "</ul>\n"+
+     "<code>\n"+
+     "from bokeh.resources import INLINE\n"+
+     "output_notebook(resources=INLINE)\n"+
+     "</code>\n"+
+     "</div>"}};
+
+  function display_loaded() {
+    var el = document.getElementById(null);
+    if (el != null) {
+      el.textContent = "BokehJS is loading...";
+    }
+    if (root.Bokeh !== undefined) {
+      if (el != null) {
+        el.textContent = "BokehJS " + root.Bokeh.version + " successfully loaded.";
+      }
+    } else if (Date.now() < root._bokeh_timeout) {
+      setTimeout(display_loaded, 100)
+    }
+  }
+
+
+  function run_callbacks() {
+    try {
+      root._bokeh_onload_callbacks.forEach(function(callback) {
+        if (callback != null)
+          callback();
+      });
+    } finally {
+      delete root._bokeh_onload_callbacks
+    }
+    console.debug("Bokeh: all callbacks have finished");
+  }
+
+  function load_libs(css_urls, js_urls, callback) {
+    if (css_urls == null) css_urls = [];
+    if (js_urls == null) js_urls = [];
+
+    root._bokeh_onload_callbacks.push(callback);
+    if (root._bokeh_is_loading > 0) {
+      console.debug("Bokeh: BokehJS is being loaded, scheduling callback at", now());
+      return null;
+    }
+    if (js_urls == null || js_urls.length === 0) {
+      run_callbacks();
+      return null;
+    }
+    console.debug("Bokeh: BokehJS not loaded, scheduling load and callback at", now());
+    root._bokeh_is_loading = css_urls.length + js_urls.length;
+
+    function on_load() {
+      root._bokeh_is_loading--;
+      if (root._bokeh_is_loading === 0) {
+        console.debug("Bokeh: all BokehJS libraries/stylesheets loaded");
+        run_callbacks()
+      }
+    }
+
+    function on_error() {
+      console.error("failed to load " + url);
+    }
+
+    for (var i = 0; i < css_urls.length; i++) {
+      var url = css_urls[i];
+      const element = document.createElement("link");
+      element.onload = on_load;
+      element.onerror = on_error;
+      element.rel = "stylesheet";
+      element.type = "text/css";
+      element.href = url;
+      console.debug("Bokeh: injecting link tag for BokehJS stylesheet: ", url);
+      document.body.appendChild(element);
+    }
+
+    for (var i = 0; i < js_urls.length; i++) {
+      var url = js_urls[i];
+      var element = document.createElement('script');
+      element.onload = on_load;
+      element.onerror = on_error;
+      element.async = false;
+      element.src = url;
+      console.debug("Bokeh: injecting script tag for BokehJS library: ", url);
+      document.head.appendChild(element);
+    }
+  };
+
+  function inject_raw_css(css) {
+    const element = document.createElement("style");
+    element.appendChild(document.createTextNode(css));
+    document.body.appendChild(element);
+  }
+
+  var js_urls = ["https://cdn.pydata.org/bokeh/release/bokeh-1.3.4.min.js", "https://cdn.pydata.org/bokeh/release/bokeh-widgets-1.3.4.min.js", "https://cdn.pydata.org/bokeh/release/bokeh-tables-1.3.4.min.js", "https://cdn.pydata.org/bokeh/release/bokeh-gl-1.3.4.min.js"];
+  var css_urls = [];
+
+  var inline_js = [
+    function(Bokeh) {
+      Bokeh.set_log_level("info");
+    },
+    
+    function(Bokeh) {
+      
+    },
+    function(Bokeh) {} // ensure no trailing comma for IE
+  ];
+
+  function run_inline_js() {
+    
+    if ((root.Bokeh !== undefined) || (force === true)) {
+      for (var i = 0; i < inline_js.length; i++) {
+        inline_js[i].call(root, root.Bokeh);
+      }} else if (Date.now() < root._bokeh_timeout) {
+      setTimeout(run_inline_js, 100);
+    } else if (!root._bokeh_failed_load) {
+      console.log("Bokeh: BokehJS failed to load within specified timeout.");
+      root._bokeh_failed_load = true;
+    } else if (force !== true) {
+      var cell = $(document.getElementById(null)).parents('.cell').data().cell;
+      cell.output_area.append_execute_result(NB_LOAD_WARNING)
+    }
+
+  }
+
+  if (root._bokeh_is_loading === 0) {
+    console.debug("Bokeh: BokehJS loaded, going straight to plotting");
+    run_inline_js();
+  } else {
+    load_libs(css_urls, js_urls, function() {
+      console.debug("Bokeh: BokehJS plotting callback run at", now());
+      run_inline_js();
+    });
+  }
+}(window));
+</script>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+
+
+
+
+
+  <div class="bk-root" id="79dfd9bb-6f98-4b98-8e90-579f496f5615" data-root-id="1127"></div>
+<script>(function(root) {
+  function embed_document(root) {
+    
+  var docs_json = {"28210a82-22b5-41dd-8417-ea15059f92c7":{"roots":{"references":[{"attributes":{"below":[{"id":"1138","type":"LinearAxis"}],"center":[{"id":"1142","type":"Grid"},{"id":"1147","type":"Grid"}],"left":[{"id":"1143","type":"LinearAxis"}],"plot_height":400,"plot_width":400,"renderers":[{"id":"1167","type":"GlyphRenderer"},{"id":"1173","type":"GlyphRenderer"},{"id":"1179","type":"GlyphRenderer"}],"title":{"id":"1128","type":"Title"},"toolbar":{"id":"1155","type":"Toolbar"},"x_range":{"id":"1130","type":"DataRange1d"},"x_scale":{"id":"1134","type":"LinearScale"},"y_range":{"id":"1132","type":"DataRange1d"},"y_scale":{"id":"1136","type":"LinearScale"}},"id":"1127","subtype":"Figure","type":"Plot"},{"attributes":{},"id":"1153","type":"HelpTool"},{"attributes":{"data_source":{"id":"1163","type":"ColumnDataSource"},"glyph":{"id":"1165","type":"Circle"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1166","type":"Circle"},"selection_glyph":null,"view":{"id":"1168","type":"CDSView"}},"id":"1167","type":"GlyphRenderer"},{"attributes":{},"id":"1187","type":"Selection"},{"attributes":{},"id":"1148","type":"PanTool"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"size":{"units":"screen","value":12},"x":{"field":"x"},"y":{"field":"y"}},"id":"1178","type":"Circle"},{"attributes":{"bottom_units":"screen","fill_alpha":{"value":0.5},"fill_color":{"value":"lightgrey"},"left_units":"screen","level":"overlay","line_alpha":{"value":1.0},"line_color":{"value":"black"},"line_dash":[4,4],"line_width":{"value":2},"render_mode":"css","right_units":"screen","top_units":"screen"},"id":"1192","type":"BoxAnnotation"},{"attributes":{"data_source":{"id":"1175","type":"ColumnDataSource"},"glyph":{"id":"1177","type":"Circle"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1178","type":"Circle"},"selection_glyph":null,"view":{"id":"1180","type":"CDSView"}},"id":"1179","type":"GlyphRenderer"},{"attributes":{},"id":"1139","type":"BasicTicker"},{"attributes":{"callback":null,"tooltips":"\n        <div>\n            <div>\n                <img\n                    src=\"@imgs\" height=\"50\" alt=\"@imgs\" \n                    style=\"float: left; margin: 0px 15px 15px 0px;\"\n                    border=\"2\"\n                ></img>\n            </div>\n            <div>\n                <span style=\"font-size: 17px; font-weight: bold;\">@desc</span>\n                <span style=\"font-size: 15px; color: #966;\">[$index]</span>\n            </div>\n            <!---commenting-out coordinate values <div>\n                <span style=\"font-size: 10px; color: #696;\">($x, $y)</span>\n            </div> -->\n        </div>\n    "},"id":"1154","type":"HoverTool"},{"attributes":{"callback":null,"data":{"desc":["dog","dog","dog","dog","dog","dog","dog","dog","dog","dog"],"imgs":["https://images.theconversation.com/files/319375/original/file-20200309-118956-1cqvm6j.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1200&h=900.0&fit=crop","https://www.sciencemag.org/sites/default/files/styles/inline__450w__no_aspect/public/dogs_1280p_0.jpg?itok=4t_1_fSJ","https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/other/dog_cool_summer_slideshow/1800x1200_dog_cool_summer_other.jpg","https://i.natgeofe.com/n/4f5aaece-3300-41a4-b2a8-ed2708a0a27c/domestic-dog_thumb.jpg","https://i.ytimg.com/vi/MPV2METPeJU/maxresdefault.jpg","https://i.guim.co.uk/img/media/fe1e34da640c5c56ed16f76ce6f994fa9343d09d/0_174_3408_2046/master/3408.jpg?width=1200&height=900&quality=85&auto=format&fit=crop&s=0d3f33fb6aa6e0154b7713a00454c83d","https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retriever-royalty-free-image-506756303-1560962726.jpg?crop=0.672xw:1.00xh;0.166xw,0&resize=640:*","https://i.guim.co.uk/img/media/684c9d087dab923db1ce4057903f03293b07deac/205_132_1915_1150/master/1915.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=14a95b5026c1567b823629ba35c40aa0","https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=1200:*","https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-1100x628.jpg"],"x":{"__ndarray__":"Q1QgRQG4yEXQFW1FUYB3RTnTlkVxk7RFjf+HRULhnUViU5lF7CRZRQ==","dtype":"float32","shape":[10]},"y":{"__ndarray__":"P5Ydw8edN0QrtOPCUvuOQmixLkNh1KFCPgmLRHDC+MPuVX9EnHj9RA==","dtype":"float32","shape":[10]}},"selected":{"id":"1187","type":"Selection"},"selection_policy":{"id":"1186","type":"UnionRenderers"}},"id":"1163","type":"ColumnDataSource"},{"attributes":{"fill_color":{"value":"blue"},"line_color":{"value":"blue"},"size":{"units":"screen","value":12},"x":{"field":"x"},"y":{"field":"y"}},"id":"1165","type":"Circle"},{"attributes":{"data_source":{"id":"1169","type":"ColumnDataSource"},"glyph":{"id":"1171","type":"Circle"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1172","type":"Circle"},"selection_glyph":null,"view":{"id":"1174","type":"CDSView"}},"id":"1173","type":"GlyphRenderer"},{"attributes":{},"id":"1191","type":"Selection"},{"attributes":{"overlay":{"id":"1192","type":"BoxAnnotation"}},"id":"1150","type":"BoxZoomTool"},{"attributes":{"formatter":{"id":"1183","type":"BasicTickFormatter"},"ticker":{"id":"1139","type":"BasicTicker"}},"id":"1138","type":"LinearAxis"},{"attributes":{"dimension":1,"ticker":{"id":"1144","type":"BasicTicker"}},"id":"1147","type":"Grid"},{"attributes":{},"id":"1185","type":"BasicTickFormatter"},{"attributes":{"text":"Mouse over the dots"},"id":"1128","type":"Title"},{"attributes":{},"id":"1152","type":"ResetTool"},{"attributes":{},"id":"1188","type":"UnionRenderers"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"size":{"units":"screen","value":12},"x":{"field":"x"},"y":{"field":"y"}},"id":"1166","type":"Circle"},{"attributes":{"source":{"id":"1169","type":"ColumnDataSource"}},"id":"1174","type":"CDSView"},{"attributes":{},"id":"1183","type":"BasicTickFormatter"},{"attributes":{"source":{"id":"1175","type":"ColumnDataSource"}},"id":"1180","type":"CDSView"},{"attributes":{"fill_color":{"value":"green"},"line_color":{"value":"green"},"size":{"units":"screen","value":12},"x":{"field":"x"},"y":{"field":"y"}},"id":"1177","type":"Circle"},{"attributes":{"formatter":{"id":"1185","type":"BasicTickFormatter"},"ticker":{"id":"1144","type":"BasicTicker"}},"id":"1143","type":"LinearAxis"},{"attributes":{"callback":null},"id":"1130","type":"DataRange1d"},{"attributes":{"fill_color":{"value":"red"},"line_color":{"value":"red"},"size":{"units":"screen","value":12},"x":{"field":"x"},"y":{"field":"y"}},"id":"1171","type":"Circle"},{"attributes":{},"id":"1134","type":"LinearScale"},{"attributes":{"callback":null,"data":{"desc":["horse","horse","horse","horse","horse","horse","horse","horse","horse"],"imgs":["https://imgk.timesnownews.com/story/Dreaming_about_a_horse.jpg?tr=w-600,h-450","https://cdn.britannica.com/s:690x388,c:crop/76/107376-050-E3088B68/types-horse-markings.jpg","https://thumbor.forbes.com/thumbor/fit-in/1200x0/filters%3Aformat%28jpg%29/https%3A%2F%2Fspecials-images.forbesimg.com%2Fimageserve%2F5f664f1ec2191c793cf3bd8d%2F0x0.jpg","https://horsej-intellectsolutio.netdna-ssl.com/cdn/farfuture/SVD1oaF2ITMncqEBjp-F4wIPN3Iqw8M25m7mvjCT1-Q/mtime:1543626961/files/styles/article_large/public/pictures-videos/blogs/shutterstock_250751620_-_grigorita_ko_-_web.jpg?itok=dr2UJXfv","https://images.theconversation.com/files/250401/original/file-20181213-110249-1czg7z.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1200&h=1200.0&fit=crop","https://blogs.gartner.com/debbie_wilson/files/2019/10/horse.jpg","https://media.gq.com/photos/56e71c0b14cbe0637b261d7f/4:3/w_2260,h_1695,c_limit/horseinsuit2.jpg","https://res.cloudinary.com/dk-find-out/image/upload/q_80,w_1920,f_auto/MA_00600259_vpf1m0.jpg","https://www.treehugger.com/thmb/4POnzxta535OuxqNIRBWCUzK39M=/768x0/filters:no_upscale():max_bytes(150000):strip_icc()/horse.primary-e9a47e1c486c4fb7bf729e05b59cf0df.jpg"],"x":{"__ndarray__":"CEeQRUxGH0WUxGNFxV1SRUp9CEXN+GhF+eK7RXuzmkTYQrBF","dtype":"float32","shape":[9]},"y":{"__ndarray__":"5dTPw3rqXESzBXXDSNKZRNdBxEImQAHElAlDRFMyOkTxFFJE","dtype":"float32","shape":[9]}},"selected":{"id":"1191","type":"Selection"},"selection_policy":{"id":"1190","type":"UnionRenderers"}},"id":"1175","type":"ColumnDataSource"},{"attributes":{},"id":"1151","type":"SaveTool"},{"attributes":{},"id":"1189","type":"Selection"},{"attributes":{"callback":null},"id":"1132","type":"DataRange1d"},{"attributes":{"callback":null,"data":{"desc":["cat","cat","cat","cat","cat","cat","cat","cat","cat"],"imgs":["https://c.files.bbci.co.uk/12A9B/production/_111434467_gettyimages-1143489763.jpg","https://timesofindia.indiatimes.com/photo/67586673.cms","https://www.humanesociety.org/sites/default/files/styles/1240x698/public/2018/08/kitten-440379.jpg?h=c8d00152&itok=1fdekAh2","https://i.guim.co.uk/img/media/8a13052d4db7dcd508af948e5db7b04598e03190/0_294_5616_3370/master/5616.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=bcaa4eed2c1e6dab61c41a61e41433d9","https://i.ytimg.com/vi/jHWKtQHXVJg/maxresdefault.jpg","https://static.toiimg.com/photo/msid-76940605/76940605.jpg?758247","https://i.ytimg.com/vi/uHKfrz65KSU/maxresdefault.jpg","https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/other/cat_relaxing_on_patio_other/1800x1200_cat_relaxing_on_patio_other.jpg","https://images.theconversation.com/files/350865/original/file-20200803-24-50u91u.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1200&h=675.0&fit=crop"],"x":{"__ndarray__":"lVnPRWPOgUWEzXRFXFObREanMUWSvGNFcFphRRdTREXrgkpF","dtype":"float32","shape":[9]},"y":{"__ndarray__":"JxgfRG/0g0SissFD8He7QvTOSkTmWFVElUaexPX4p0SByKRE","dtype":"float32","shape":[9]}},"selected":{"id":"1189","type":"Selection"},"selection_policy":{"id":"1188","type":"UnionRenderers"}},"id":"1169","type":"ColumnDataSource"},{"attributes":{},"id":"1149","type":"WheelZoomTool"},{"attributes":{},"id":"1144","type":"BasicTicker"},{"attributes":{},"id":"1190","type":"UnionRenderers"},{"attributes":{"source":{"id":"1163","type":"ColumnDataSource"}},"id":"1168","type":"CDSView"},{"attributes":{},"id":"1136","type":"LinearScale"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto","tools":[{"id":"1148","type":"PanTool"},{"id":"1149","type":"WheelZoomTool"},{"id":"1150","type":"BoxZoomTool"},{"id":"1151","type":"SaveTool"},{"id":"1152","type":"ResetTool"},{"id":"1153","type":"HelpTool"},{"id":"1154","type":"HoverTool"}]},"id":"1155","type":"Toolbar"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"size":{"units":"screen","value":12},"x":{"field":"x"},"y":{"field":"y"}},"id":"1172","type":"Circle"},{"attributes":{"ticker":{"id":"1139","type":"BasicTicker"}},"id":"1142","type":"Grid"},{"attributes":{},"id":"1186","type":"UnionRenderers"}],"root_ids":["1127"]},"title":"Bokeh Application","version":"1.3.4"}};
+  var render_items = [{"docid":"28210a82-22b5-41dd-8417-ea15059f92c7","roots":{"1127":"79dfd9bb-6f98-4b98-8e90-579f496f5615"}}];
+  root.Bokeh.embed.embed_items_notebook(docs_json, render_items);
+
+  }
+  if (root.Bokeh !== undefined) {
+    embed_document(root);
+  } else {
+    var attempts = 0;
+    var timer = setInterval(function(root) {
+      if (root.Bokeh !== undefined) {
+        embed_document(root);
+        clearInterval(timer);
+      }
+      attempts++;
+      if (attempts > 100) {
+        console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+        clearInterval(timer);
+      }
+    }, 10, root)
+  }
+})(window);</script>
+</div>
+
+</div>
+
 </div>
 </div>
 

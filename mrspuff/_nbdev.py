@@ -12,7 +12,8 @@ index = {"say_hello": "00_core.ipynb",
          "img_scrape": "03_scrape.ipynb",
          "browse_images": "03_scrape.ipynb",
          "get_pca_xy": "03_scrape.ipynb",
-         "plot_hover": "03_scrape.ipynb"}
+         "plot_hover": "03_scrape.ipynb",
+         "plot_triangle": "03_scrape.ipynb"}
 
 modules = ["core.py",
            "card.py",

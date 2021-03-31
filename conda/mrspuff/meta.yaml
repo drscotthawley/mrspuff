@@ -1,0 +1,33 @@
+package:
+  name: mrspuff
+  version: 0.0.1a
+source:
+  sha256: bf31ea6175cab0bbc5a423e31085c7a7660b593ff60b86414608156919c8b698
+  url: https://files.pythonhosted.org/packages/64/51/53fa4d4b4e846358da29cf70e305653455f9cd29e23f8dd6b0ac8cf870ff/mrspuff-0.0.1a0.tar.gz
+about:
+  dev_url: https://drscotthawley.github.io
+  doc_url: https://drscotthawley.github.io
+  home: https://drscotthawley.github.io
+  license: Apache Software
+  license_family: APACHE
+  summary: A library for Deep Learning education. (deep learning <=> having a school
+    at the bottom of the ocean)
+build:
+  noarch: python
+  number: '0'
+  script: '{{ PYTHON }} -m pip install . -vv'
+extra:
+  recipe-maintainers:
+  - drscotthawley
+requirements:
+  host:
+  - pip
+  - python
+  - packaging
+  run:
+  - pip
+  - python
+  - packaging
+test:
+  imports:
+  - mrspuff

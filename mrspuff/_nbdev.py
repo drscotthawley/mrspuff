@@ -13,12 +13,14 @@ index = {"say_hello": "00_core.ipynb",
          "browse_images": "03_scrape.ipynb",
          "get_pca_xy": "03_scrape.ipynb",
          "plot_hover": "03_scrape.ipynb",
-         "plot_triangle": "03_scrape.ipynb"}
+         "plot_triangle": "03_scrape.ipynb",
+         "nimport": "04_nimport.ipynb"}
 
 modules = ["core.py",
            "card.py",
            "deck.py",
-           "scrape.py"]
+           "scrape.py",
+           "nimport.py"]
 
 doc_url = "https://drscotthawley.github.io/mrspuff/"
 

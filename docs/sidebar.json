@@ -5,6 +5,6 @@
     "Card": "card.html",
     "Deck": "deck.html",
     "scrape": "scrape.html",
-    "nimport: \"Nice Import\"": "nimport.html"
+    "nimport": "nimport.html"
   }
 }

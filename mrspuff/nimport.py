@@ -6,33 +6,29 @@ __all__ = ['nimport']
 import importlib, sys, subprocess, re
 
 def nimport(import_str:str, consent:str='yes', verbosity:int=1, versions:str=''):
-    """
-    Nice Import: Gracefully import, i.e. if import fails, install via pip & retry
+    """Nice Import: Gracefully import, i.e. if import fails, install via pip & retry
 
     args:
-        import_str: A string form of the import statement you would otherwise execute
+       import_str: A string form of the import statement you would otherwise execute
 
     kwargs:
-        consent:    TODO: Let people say if they want to allow the install  ['yes','no','ask']
-        verbosity:  How much logging to print: 0=silent+errors, 1=installs, 2=everything
-        versions:   TODO: this would allow specific package versions to be specified
+       consent:    TODO: Let people say if they want to allow the install  ['yes','no','ask']
+       verbosity:  How much logging to print: 0=silent+errors, 1=installs, 2=everything
+       versions:   TODO: this would allow specific package versions to be specified
 
     This supports these possible syntaxes for import_str:
 
-        from:   'from kora.selenium import wd'
-        from-star:   'from fastai.vision.all import *'
-            TODO:  from-list and/or sub-sub-modules: 'from x.y.z import a, b, c' - unsupported for now
-        as:     'import numpy as np'
-        list:   'import bokeh, mrspuff as msp, torch'    (include a 1-element list)
+    from:   'from kora.selenium import wd'
+    from-star:   'from fastai.vision.all import *'
+       TODO:  from-list and/or sub-sub-modules: 'from x.y.z import a, b, c' - unsupported for now
+    as:     'import numpy as np'
+    list:   'import bokeh, mrspuff as msp, torch'    (include a 1-element list)
 
     ISSUES:
-        Some pip package names don't match their 'import' name. nimport won't handle that
-            Example: BeautifulSoup: package is beautifulsoup4, import is bs4
+    Some pip package names don't match their 'import' name. nimport won't handle that
+       Example: BeautifulSoup: package is beautifulsoup4, import is bs4
 
-        Oh...and: This only pip-installs the named package, not any additional
-            packages it depends on. womp womp!
-
-    Author: Scott H. Hawley
+    This only pip-installs the named package, not any dependencies.
     """
     package, module, method, as_name = None, None, None, None
 
@@ -96,5 +92,3 @@ def nimport(import_str:str, consent:str='yes', verbosity:int=1, versions:str='')
                 if 0==rc:
                     if verbosity>0: print(f"     pip succeeded. Re-importing {package} as {as_name}")
                     globals()[as_name] = importlib.import_module(package)
-
-    return

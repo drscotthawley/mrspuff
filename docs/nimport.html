@@ -44,29 +44,21 @@ nb_path: "04_nimport.ipynb"
 </blockquote>
 <p>Nice Import: Gracefully import, i.e. if import fails, install via pip &amp; retry</p>
 <p>args:
-    import_str: A string form of the import statement you would otherwise execute</p>
+   import_str: A string form of the import statement you would otherwise execute</p>
 <p>kwargs:
-    consent:    TODO: Let people say if they want to allow the install  ['yes','no','ask']
-    verbosity:  How much logging to print: 0=silent+errors, 1=installs, 2=everything
-    versions:   TODO: this would allow specific package versions to be specified</p>
+   consent:    TODO: Let people say if they want to allow the install  ['yes','no','ask']
+   verbosity:  How much logging to print: 0=silent+errors, 1=installs, 2=everything
+   versions:   TODO: this would allow specific package versions to be specified</p>
 <p>This supports these possible syntaxes for import_str:</p>
-
-<pre><code>from:   'from kora.selenium import wd'
+<p>from:   'from kora.selenium import wd'
 from-star:   'from fastai.vision.all import *'
-    TODO:  from-list and/or sub-sub-modules: 'from x.y.z import a, b, c' - unsupported for now
+   TODO:  from-list and/or sub-sub-modules: 'from x.y.z import a, b, c' - unsupported for now
 as:     'import numpy as np'
-list:   'import bokeh, mrspuff as msp, torch'    (include a 1-element list)
-
-</code></pre>
+list:   'import bokeh, mrspuff as msp, torch'    (include a 1-element list)</p>
 <p>ISSUES:
-    Some pip package names don't match their 'import' name. nimport won't handle that
-        Example: BeautifulSoup: package is beautifulsoup4, import is bs4</p>
-
-<pre><code>Oh...and: This only pip-installs the named package, not any additional
-    packages it depends on. womp womp!
-
-</code></pre>
-<p>Author: Scott H. Hawley</p>
+Some pip package names don't match their 'import' name. nimport won't handle that
+   Example: BeautifulSoup: package is beautifulsoup4, import is bs4</p>
+<p>This only pip-installs the named package, not any dependencies.</p>
 
 </div>
 

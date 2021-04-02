@@ -21,6 +21,9 @@ entries:
     - output: web,pdf
       title: scrape
       url: scrape.html
+    - output: web,pdf
+      title: 'nimport: "Nice Import"'
+      url: nimport.html
     output: web
     title: mrspuff
   output: web

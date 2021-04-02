@@ -4,6 +4,7 @@
     "core": "core.html",
     "Card": "card.html",
     "Deck": "deck.html",
-    "scrape": "scrape.html"
+    "scrape": "scrape.html",
+    "nimport: \"Nice Import\"": "nimport.html"
   }
 }

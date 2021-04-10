@@ -4,7 +4,6 @@ __all__ = ['triangle3d_plotly', 'TrianglePlotBokeh', 'VizPreds']
 
 # Cell
 import plotly.graph_objects as go
-from fastai.vision.all import *
 
 def triangle3d_plotly(pred, targ=None, labels=['x','y','z'], show_axes=True, show_bounds=True, cmap='jet'):
     "plot a 3d triangle plot using plot.ly."
@@ -35,9 +34,12 @@ from kora.bokeh import figure
 from bokeh.plotting import ColumnDataSource, output_file, show, output_notebook
 from bokeh.models import Label
 import numpy as np
+from fastai.basics import *
 
 class TrianglePlotBokeh():
-    """Plot categority predictions for 3 categories - using bokeh
+    """
+        This gives a 2d plot with image tooltips when the mouse hovers over a data point
+        Plot category predictions for 3 categories - using bokeh
         pred: (n,3): probability values of n data points in each of 3 classes
         targ: (n):   target value (0,1,2) for each data point
         One issue/feature is that kora must be calling output_file, so bokeh opens a new tab
@@ -102,7 +104,8 @@ class TrianglePlotBokeh():
         return self.do_plot()
 
 # Cell
-from fastai.vision.all import *
+from fastai.callback.core import Callback
+from fastai.callback.progress import ProgressCallback
 
 class VizPreds(Callback):
     "This callback is designed to call the bokeh triangle plot with each batch of training, using validation data."

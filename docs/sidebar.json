@@ -1,10 +1,9 @@
 {
   "mrspuff": {
     "Overview": "/",
-    "core": "core.html",
-    "Card": "card.html",
-    "Deck": "deck.html",
+    "nimport": "nimport.html",
     "scrape": "scrape.html",
-    "nimport": "nimport.html"
+    "utils": "utils.html",
+    "viz": "viz.html"
   }
 }

@@ -10,20 +10,17 @@ entries:
       title: Overview
       url: /
     - output: web,pdf
-      title: core
-      url: core.html
-    - output: web,pdf
-      title: Card
-      url: card.html
-    - output: web,pdf
-      title: Deck
-      url: deck.html
+      title: nimport
+      url: nimport.html
     - output: web,pdf
       title: scrape
       url: scrape.html
     - output: web,pdf
-      title: nimport
-      url: nimport.html
+      title: utils
+      url: utils.html
+    - output: web,pdf
+      title: viz
+      url: viz.html
     output: web
     title: mrspuff
   output: web

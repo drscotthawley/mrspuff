@@ -12,7 +12,7 @@ import json
 #modified from fastbook utils, https://github.com/fastai/course20/blob/master/fastbook/__init__.py
 #by Jeremy Howard and Sylvain Gugger.  Just removed the .decode() formatting, and replaced L() with list()
 def search_images_ddg(key,max_n=200):
-    """Search for 'key' with DuckDuckGo and return a unique urls of 'max_n' images
+    """By Howard & Gugger: Search for 'key' with DuckDuckGo and return a unique urls of 'max_n' images
     (Adopted from https://github.com/deepanprabhu/duckduckgo-images-api)
     """
     url        = 'https://duckduckgo.com/'
@@ -57,21 +57,21 @@ def download_and_save(folder_path:str, url:str, verbose:bool=True):
         file_path = os.path.join(folder_path,hashlib.sha1(image_content).hexdigest()[:10] + '.jpg')
         with open(file_path, 'wb') as f:
             image.save(f, "JPEG", quality=85)
-        if verbose:  print(f"SUCCESS - saved {url} - as {file_path}")
+        #if verbose:  print(f"SUCCESS - saved {url} - as {file_path}")
         success = True
     except Exception as e:
         print(f"ERROR - Could not save {url} - {e}")
     return success
 
 
-def search_and_download(search_term:str, target_path:str='./images', number_images:int=10, verbose:bool=True):
+def search_and_download(search_term:str, target_path:str='./images', num_images:int=10, verbose:bool=True):
 
     target_folder = os.path.join(target_path,'_'.join(search_term.lower().split(' ')))
 
     if not os.path.exists(target_folder):
         os.makedirs(target_folder)
 
-    try_urls = search_images_ddg(search_term, max_n=number_images)
+    try_urls = search_images_ddg(search_term, max_n=num_images)
     print(f"...got {len(try_urls)} urls for term '{search_term}'")
 
     count, urls = 0, []      # count success and urls whose images were successfully saved
@@ -81,7 +81,7 @@ def search_and_download(search_term:str, target_path:str='./images', number_imag
             count += 1
             urls.append(url)
 
-    if verbose: print(f"{search_term}: Expected {number_images}, succeeded at saving {count}.")
+    if verbose: print(f"{search_term}: Expected {num_images}, succeeded at saving {count}.")
     return count, urls
 
 
@@ -101,7 +101,7 @@ import shutil
 import glob
 
 
-def img_scrape(search_terms:list, target_path:str='./.images', number_images:int=10, verbose:bool=True):
+def img_scrape(search_terms:list, target_path:str='./.images', num_images:int=10, verbose:bool=True):
 
      # clear out directory before use
     for category_path in glob.glob(os.path.join(target_path, "*")):
@@ -111,7 +111,7 @@ def img_scrape(search_terms:list, target_path:str='./.images', number_images:int
 
     for term in search_terms:
         if verbose: print(f"Searching on term '{term}'...")
-        count, urls = search_and_download(search_term = term, target_path=target_path, number_images=number_images)
+        count, urls = search_and_download(search_term = term, target_path=target_path, num_images=num_images)
         dataset[term].urls = urls   # save urls in case we want them later
 
     return dataset
@@ -145,8 +145,12 @@ except:
 
 def get_thumb_urls(
     images_dir:str="scraped_images",  # directory of full size images, no / on end
+    size:tuple=(150,150),             # max dims of thumbnail; see PIL Image.thumbnail()
     verbose:bool=False                # whether to print status messages or not
     ) -> list:
+    """
+    (Colab only) This will save thumbnails of images and provide 'hosted' urls to them
+    """
 
     if not IN_COLAB:
         print("Sorry, this only works on Colab")
@@ -166,11 +170,11 @@ def get_thumb_urls(
         thumb_paths.append(t)
         t.parent.mkdir(parents=True, exist_ok=True)  # create the parent directories before writing files
         with Image.open(f) as im:
-            im.thumbnail((150,150))
+            im.thumbnail(size)
             im.save(t)
-    print(f"Thumbnails saved to Google Drive in {thumbs_copy_dir}. Waiting til URLs are ready...")
+    print(f"Thumbnails saved to Google Drive in {thumbs_copy_dir}\nWaiting til URLs are ready.")
 
-    # get the urls to the thumbnails from drive
+    # get thumbnail URLs from Drive (might have to wait a bit for them)
     urls = []
     for tp in thumb_paths:
         count, fid = 0, "local-225"  # need a loop in case Drive needs time to generate FileID

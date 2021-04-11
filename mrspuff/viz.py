@@ -30,24 +30,25 @@ def triangle3d_plotly(pred, targ=None, labels=['x','y','z'], show_axes=True, sho
     return fig.show()
 
 # Cell
-from kora.bokeh import figure
-from bokeh.plotting import ColumnDataSource, output_file, show, output_notebook
+from bokeh.plotting import figure, ColumnDataSource, output_file, show
+from bokeh.io import output_notebook
 from bokeh.models import Label
 import numpy as np
 from fastai.basics import *
 
-class TrianglePlotBokeh():
-    """
-        This gives a 2d plot with image tooltips when the mouse hovers over a data point
-        Plot category predictions for 3 categories - using bokeh
-        pred: (n,3): probability values of n data points in each of 3 classes
-        targ: (n):   target value (0,1,2) for each data point
-        One issue/feature is that kora must be calling output_file, so bokeh opens a new tab
-    """
 
-    def __init__(self, pred, targ, labels=['0','1','2'], show_bounds=False):
+class TrianglePlotBokeh():
+    "This gives a 2d plot with image tooltips when the mouse hovers over a data point."
+
+    def __init__(self,
+            pred:ndarray,               # (n,3): probability values of n data points in each of 3 classes
+            targ:ndarray,               # (n):   target value (0,1,2) for each data point
+            labels:list=['0','1','2'],  # the class labels
+            show_bounds:bool=False,     # show inter-class boundaries or not
+            urls:list=None              # image urls to display upon mouseover (default: stock images)
+            ) -> None:                  # __init__ isn't allowed to return anything (it's a Python thing)
         store_attr()
-        output_notebook # output_file("toolbar.html")
+        output_notebook()   # output_file("toolbar.html")
         self.colors = ["blue","red","green"]
         self.TOOLTIPS_HTML = """
             <div>
@@ -68,9 +69,10 @@ class TrianglePlotBokeh():
             </div>
         """
         self.clear()
+        return
 
     def clear(self):
-        self.p = figure(350,400, tooltips=self.TOOLTIPS_HTML, title="Mouse over the dots") # note xsize & ysize are reversed
+        self.p = figure(plot_width=400, plot_height=350, tooltips=self.TOOLTIPS_HTML, title="Mouse over the dots")
 
     def do_plot(self):
         xs, ys = self.pred.T[1] - self.pred.T[0], self.pred.T[2]
@@ -79,13 +81,14 @@ class TrianglePlotBokeh():
         #        'https://upload.wikimedia.org/wikipedia/commons/0/08/01_Schwarzb%C3%A4r.jpg',\
         #        'https://images-na.ssl-images-amazon.com/images/I/81J4TvhJx1L.__AC_SX300_SY300_QL70_FMwebp_.jpg']
         tmp_urls = ['https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Felis_silvestris_catus_lying_on_rice_straw.jpg/220px-Felis_silvestris_catus_lying_on_rice_straw.jpg',
-                'https://upload.wikimedia.org/wikipedia/commons/6/60/YellowLabradorLooking.jpg',
+                'https://www.photos-public-domain.com/wp-content/uploads/2012/03/brown-dog-with-tail-up-300x300.jpg',
                 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/SilverMorgan.jpg/250px-SilverMorgan.jpg']
-        for i in range(3):  # for each category
+
+        for i in range(self.pred.shape[-1]):  # for each category
             jind = np.where(self.targ == i)
             x, y = xs[jind], ys[jind]
             n = len(y)
-            urls = [tmp_urls[i]]*n
+            urls = [tmp_urls[i]]*n if self.urls is None else self.urls
             source = ColumnDataSource( data=dict(x=x, y=y, desc=[self.labels[i]]*n, imgs=urls ) )
             self.p.circle('x', 'y', size=6, line_color=self.colors[i], fill_color=self.colors[i], source=source)
 
@@ -95,7 +98,6 @@ class TrianglePlotBokeh():
 
         if self.show_bounds: pass   # TODO: add this
 
-        show(self.p)
         return self.p
 
     def update(self, pred, targ):
@@ -108,9 +110,12 @@ from fastai.callback.core import Callback
 from fastai.callback.progress import ProgressCallback
 
 class VizPreds(Callback):
-    "This callback is designed to call the bokeh triangle plot with each batch of training, using validation data."
+    "This fastai callback is designed to call the bokeh triangle plot with each batch of training, using validation data."
     order = ProgressCallback.order+1
-    def before_fit(self, **kwargs): self.plot = TrianglePlotBokeh(labels=self.dls.vocab)
+    def __init__(self,
+        method=TrianglePlotBokeh   # callback to plotting method; must have ".do_plot(preds,targs)"
+    ): self.method = method
+    def before_fit(self, **kwargs): self.plot = self.method(labels=self.dls.vocab)
     def after_batch(self, **kwargs):
         if not self.learn.training:
             with torch.no_grad():

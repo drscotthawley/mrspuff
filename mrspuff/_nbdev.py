@@ -3,15 +3,12 @@
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
 index = {"nimport": "nimport.ipynb",
-         "fetch_image_urls": "scrape.ipynb",
+         "search_images_ddg": "scrape.ipynb",
          "download_and_save": "scrape.ipynb",
          "search_and_download": "scrape.ipynb",
          "Category": "scrape.ipynb",
          "img_scrape": "scrape.ipynb",
          "browse_images": "scrape.ipynb",
-         "get_pca_xy": "scrape.ipynb",
-         "plot_hover": "scrape.ipynb",
-         "plot_triangle": "scrape.ipynb",
          "softmax": "utils.ipynb",
          "calc_prob": "utils.ipynb",
          "triangle3d_plotly": "viz.ipynb",

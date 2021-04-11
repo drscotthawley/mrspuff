@@ -10,9 +10,6 @@ entries:
       title: Overview
       url: /
     - output: web,pdf
-      title: nimport
-      url: nimport.html
-    - output: web,pdf
       title: scrape
       url: scrape.html
     - output: web,pdf

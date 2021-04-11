@@ -1,7 +1,6 @@
 {
   "mrspuff": {
     "Overview": "/",
-    "nimport": "nimport.html",
     "scrape": "scrape.html",
     "utils": "utils.html",
     "viz": "viz.html"

@@ -2,8 +2,7 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"nimport": "nimport.ipynb",
-         "search_images_ddg": "scrape.ipynb",
+index = {"search_images_ddg": "scrape.ipynb",
          "download_and_save": "scrape.ipynb",
          "search_and_download": "scrape.ipynb",
          "Category": "scrape.ipynb",
@@ -15,8 +14,7 @@ index = {"nimport": "nimport.ipynb",
          "TrianglePlotBokeh": "viz.ipynb",
          "VizPreds": "viz.ipynb"}
 
-modules = ["nimport.py",
-           "scrape.py",
+modules = ["scrape.py",
            "utils.py",
            "viz.py"]
 

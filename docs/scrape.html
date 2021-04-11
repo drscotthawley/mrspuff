@@ -375,7 +375,8 @@ scraped_images/horse:
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">urls</span> <span class="o">=</span> <span class="n">get_thumb_urls</span><span class="p">(</span><span class="n">target_dir</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;urls = &quot;</span><span class="p">,</span><span class="n">urls</span><span class="p">)</span>
-<span class="n">HTML</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&lt;img src=</span><span class="si">{</span><span class="n">urls</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&gt;&quot;</span><span class="p">)</span>
+<span class="n">url</span> <span class="o">=</span> <span class="n">urls</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">IN_COLAB</span> <span class="k">else</span> <span class="s1">&#39;https://drive.google.com/uc?id=1owIYMyW7yaYlZ4QcJ8P3iIxkl_mCN-GX&#39;</span>
+<span class="n">HTML</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&lt;img src=</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&gt;&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -384,16 +385,6 @@ scraped_images/horse:
 
 <div class="output_wrapper">
 <div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Drive already mounted at /gdrive; to attempt to forcibly remount, call drive.mount(&#34;/gdrive&#34;, force_remount=True).
-Thumbnails saved to Google Drive in /gdrive/My Drive/scraped_images_thumbs. Waiting til URLs are ready...
-urls =  [&#39;https://drive.google.com/uc?id=1owIYMyW7yaYlZ4QcJ8P3iIxkl_mCN-GX&#39;, &#39;https://drive.google.com/uc?id=1ouDGeAQzpjMeDoRD4DDcJuKfIeJLpj4y&#39;, &#39;https://drive.google.com/uc?id=1orLyPGdQgZsSXfN4ltnoSu5ZEaVAEQQc&#39;, &#39;https://drive.google.com/uc?id=1oo7SyB4tLl6xqQ267laiqG0GeObJG3H5&#39;, &#39;https://drive.google.com/uc?id=1okbo0hPPO-5aSHsWzTOSZHqziCVbi_k5&#39;, &#39;https://drive.google.com/uc?id=1ohizi3fqEVHckPA_290e0qL5iwfr3gHa&#39;, &#39;https://drive.google.com/uc?id=1ocG2ktQwMR59rXGi3iCoLyz3-z68jLAZ&#39;, &#39;https://drive.google.com/uc?id=1obSpwG7h7IBrxtgXK4sf5xyQ8k0HIuYi&#39;, &#39;https://drive.google.com/uc?id=1obNLbRzY3TH6Fhuw-d2gJhzQ00pISfh3&#39;, &#39;https://drive.google.com/uc?id=1oXnInFnTZt_zbE8RPQFfSUSIeCgUjxpw&#39;, &#39;https://drive.google.com/uc?id=1oVnsDMWUp-lToQWqjRM_jV1mpOcVL_lt&#39;, &#39;https://drive.google.com/uc?id=1oSCEheCHxd5jZZjuga9t9fyiRp-HClo6&#39;, &#39;https://drive.google.com/uc?id=1oPBvQATyjXZuIe6yveOSS84BTBKZvLlP&#39;, &#39;https://drive.google.com/uc?id=1oLz2ysR44GE5LvnDwLWgmCx9Mred7kgh&#39;, &#39;https://drive.google.com/uc?id=1oLeQe_zPwFAZJX7IJ1CXSOgtxYbzYTVa&#39;, &#39;https://drive.google.com/uc?id=1oKI2aqaLh3feRZjFQy4ep0Gyw19k6DqV&#39;, &#39;https://drive.google.com/uc?id=1oIXdxaqnqu0HFFiybAmwbBdopUiwxerf&#39;, &#39;https://drive.google.com/uc?id=1oE6sY6zhNnsjjBHaq1BN-eBY4HY_wfKU&#39;, &#39;https://drive.google.com/uc?id=1ndebiAorMiSryGv7ooTbCdRNMK6dveLA&#39;, &#39;https://drive.google.com/uc?id=1ncpsTljSnNU3Z7Mh6Hd0opbLOsPHWg9w&#39;, &#39;https://drive.google.com/uc?id=1nbwRc4PA_oAPnIMCJH4dG06k6_lD7c6q&#39;, &#39;https://drive.google.com/uc?id=1nYsWvS_t0RF4e2m44RGSqIF9Xzf698cq&#39;, &#39;https://drive.google.com/uc?id=1nSzxjarVG26zFuKZEUvzVi28QPC9V9co&#39;]
-</pre>
-</div>
-</div>
 
 <div class="output_area">
 

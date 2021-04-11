@@ -6,8 +6,8 @@ title: scrape
 keywords: fastai
 sidebar: home_sidebar
 
-summary: "This is a collection of routines for dataset-building via web scraping"
-description: "This is a collection of routines for dataset-building via web scraping"
+summary: "This is a collection of routines for dataset-building via web scraping, intended to be run on Google Colab"
+description: "This is a collection of routines for dataset-building via web scraping, intended to be run on Google Colab"
 nb_path: "scrape.ipynb"
 ---
 <!--
@@ -48,7 +48,7 @@ nb_path: "scrape.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="search_images_ddg" class="doc_header"><code>search_images_ddg</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/scrape.py#L12" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>search_images_ddg</code>(<strong><code>key</code></strong>, <strong><code>max_n</code></strong>=<em><code>200</code></em>)</p>
+<h4 id="search_images_ddg" class="doc_header"><code>search_images_ddg</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/scrape.py#L14" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>search_images_ddg</code>(<strong><code>key</code></strong>, <strong><code>max_n</code></strong>=<em><code>200</code></em>)</p>
 </blockquote>
 <p>Search for 'key' with DuckDuckGo and return a unique urls of 'max_n' images
 (Adopted from <a href="https://github.com/deepanprabhu/duckduckgo-images-api">https://github.com/deepanprabhu/duckduckgo-images-api</a>)</p>
@@ -81,7 +81,7 @@ nb_path: "scrape.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="download_and_save" class="doc_header"><code>download_and_save</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/scrape.py#L44" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>download_and_save</code>(<strong><code>folder_path</code></strong>:<code>str</code>, <strong><code>url</code></strong>:<code>str</code>, <strong><code>verbose</code></strong>:<code>bool</code>=<em><code>True</code></em>)</p>
+<h4 id="download_and_save" class="doc_header"><code>download_and_save</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/scrape.py#L46" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>download_and_save</code>(<strong><code>folder_path</code></strong>:<code>str</code>, <strong><code>url</code></strong>:<code>str</code>, <strong><code>verbose</code></strong>:<code>bool</code>=<em><code>True</code></em>)</p>
 </blockquote>
 
 </div>
@@ -105,7 +105,7 @@ nb_path: "scrape.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="search_and_download" class="doc_header"><code>search_and_download</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/scrape.py#L65" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>search_and_download</code>(<strong><code>search_term</code></strong>:<code>str</code>, <strong><code>target_path</code></strong>:<code>str</code>=<em><code>'./images'</code></em>, <strong><code>number_images</code></strong>:<code>int</code>=<em><code>10</code></em>, <strong><code>verbose</code></strong>:<code>bool</code>=<em><code>True</code></em>)</p>
+<h4 id="search_and_download" class="doc_header"><code>search_and_download</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/scrape.py#L67" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>search_and_download</code>(<strong><code>search_term</code></strong>:<code>str</code>, <strong><code>target_path</code></strong>:<code>str</code>=<em><code>'./images'</code></em>, <strong><code>number_images</code></strong>:<code>int</code>=<em><code>10</code></em>, <strong><code>verbose</code></strong>:<code>bool</code>=<em><code>True</code></em>)</p>
 </blockquote>
 
 </div>
@@ -129,7 +129,7 @@ nb_path: "scrape.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Category" class="doc_header"><code>class</code> <code>Category</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/scrape.py#L87" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Category</code>()</p>
+<h2 id="Category" class="doc_header"><code>class</code> <code>Category</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/scrape.py#L89" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Category</code>()</p>
 </blockquote>
 
 </div>
@@ -160,7 +160,7 @@ nb_path: "scrape.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="img_scrape" class="doc_header"><code>img_scrape</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/scrape.py#L102" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>img_scrape</code>(<strong><code>search_terms</code></strong>:<code>list</code>, <strong><code>target_path</code></strong>:<code>str</code>=<em><code>'./.images'</code></em>, <strong><code>number_images</code></strong>:<code>int</code>=<em><code>10</code></em>, <strong><code>verbose</code></strong>:<code>bool</code>=<em><code>True</code></em>)</p>
+<h4 id="img_scrape" class="doc_header"><code>img_scrape</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/scrape.py#L104" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>img_scrape</code>(<strong><code>search_terms</code></strong>:<code>list</code>, <strong><code>target_path</code></strong>:<code>str</code>=<em><code>'./.images'</code></em>, <strong><code>number_images</code></strong>:<code>int</code>=<em><code>10</code></em>, <strong><code>verbose</code></strong>:<code>bool</code>=<em><code>True</code></em>)</p>
 </blockquote>
 
 </div>
@@ -201,7 +201,7 @@ nb_path: "scrape.ipynb"
 <span class="c1">#search_terms = [&quot;smart person&quot;, &quot;stupid person&quot;]          # this is going to be a bad idea! (ethics)</span>
 
 <span class="n">number_images</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">target_path</span> <span class="o">=</span> <span class="s1">&#39;./.images&#39;</span>            <span class="c1"># where to save to</span>
+<span class="n">target_dir</span> <span class="o">=</span> <span class="s1">&#39;scraped_images&#39;</span>            <span class="c1"># where to save to</span>
 </pre></div>
 
     </div>
@@ -218,7 +218,7 @@ nb_path: "scrape.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dataset</span> <span class="o">=</span> <span class="n">img_scrape</span><span class="p">(</span><span class="n">search_terms</span><span class="p">,</span> <span class="n">target_path</span><span class="o">=</span><span class="n">target_path</span><span class="p">,</span> <span class="n">number_images</span><span class="o">=</span><span class="n">number_images</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dataset</span> <span class="o">=</span> <span class="n">img_scrape</span><span class="p">(</span><span class="n">search_terms</span><span class="p">,</span> <span class="n">target_path</span><span class="o">=</span><span class="n">target_dir</span><span class="p">,</span> <span class="n">number_images</span><span class="o">=</span><span class="n">number_images</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -232,46 +232,43 @@ nb_path: "scrape.ipynb"
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Searching on term &#39;dog&#39;...
-hey from search_images_ddg
 ...got 10 urls for term &#39;dog&#39;
-SUCCESS - saved https://d1nvdmt0osh3cv.cloudfront.net/media/catalog/product/cache/1/k/a/e/image/1800x1800/acd9cc645a7ef0ba358bd1c2969a48c8/els1312-bla.jpg - as ./.images/dog/045bb79206.jpg
-SUCCESS - saved https://www.hdnicewallpapers.com/Walls/Big/Dog/3_Beautiful_Dog_Puppies_Picture_Download.jpg - as ./.images/dog/ac7120d53a.jpg
-SUCCESS - saved https://jooinn.com/images/dog-67.jpg - as ./.images/dog/9b59f312a8.jpg
-SUCCESS - saved https://www.keystonepuppies.com/wp-content/uploads/2019/01/boxer-dog-grown.jpg - as ./.images/dog/1524e33153.jpg
-SUCCESS - saved https://worlddogfinder.com/upload/editor/brittany_spaniel_puppies_LhEYdHYrX5.jpg - as ./.images/dog/b78a4c4163.jpg
-SUCCESS - saved http://dogdayzgrooming.com/wp-content/gallery/home-gallery/Laughing-Golden-1140x760.jpg - as ./.images/dog/6a374b11d6.jpg
-ERROR - Could not save http://jigsawpuzzles.online/king-include/uploads/labrador-dog-dogs-animal-pet-nature-lying-4203270734.jpg - cannot identify image file &lt;_io.BytesIO object at 0x7fe5df527fb0&gt;
-SUCCESS - saved http://www.parade.pet/assets-v2/images/dog/img-dogs/02.jpg - as ./.images/dog/88bb07cac8.jpg
-SUCCESS - saved https://sydneydruglawyers.com.au/wp-content/uploads/sniffer-dog-1024x1024.jpg - as ./.images/dog/8cee87adc0.jpg
-SUCCESS - saved https://www.sciencealert.com/images/articles/processed/dog-doubt_1024.jpg - as ./.images/dog/dae216cf27.jpg
-dog: Expected 10, succeeded at saving 9.
+SUCCESS - saved https://www.keystonepuppies.com/wp-content/uploads/2019/01/boxer-dog-grown.jpg - as scraped_images/dog/1524e33153.jpg
+SUCCESS - saved https://sydneydruglawyers.com.au/wp-content/uploads/sniffer-dog-1024x1024.jpg - as scraped_images/dog/8cee87adc0.jpg
+SUCCESS - saved https://www.hdnicewallpapers.com/Walls/Big/Dog/3_Beautiful_Dog_Puppies_Picture_Download.jpg - as scraped_images/dog/ac7120d53a.jpg
+SUCCESS - saved https://worlddogfinder.com/upload/editor/brittany_spaniel_puppies_LhEYdHYrX5.jpg - as scraped_images/dog/b78a4c4163.jpg
+SUCCESS - saved https://d1nvdmt0osh3cv.cloudfront.net/media/catalog/product/cache/1/k/a/e/image/1800x1800/acd9cc645a7ef0ba358bd1c2969a48c8/els1312-bla.jpg - as scraped_images/dog/045bb79206.jpg
+ERROR - Could not save https://www.dogbreedslist.info/topics-img/181026-Chinook.jpg - cannot identify image file &lt;_io.BytesIO object at 0x7f0b82bcb470&gt;
+ERROR - Could not save http://jigsawpuzzles.online/king-include/uploads/labrador-dog-dogs-animal-pet-nature-lying-4203270734.jpg - cannot identify image file &lt;_io.BytesIO object at 0x7f0b82b66a10&gt;
+SUCCESS - saved http://www.parade.pet/assets-v2/images/dog/img-dogs/02.jpg - as scraped_images/dog/88bb07cac8.jpg
+SUCCESS - saved https://www.sciencealert.com/images/articles/processed/dog-doubt_1024.jpg - as scraped_images/dog/dae216cf27.jpg
+SUCCESS - saved https://wallpapertag.com/wallpaper/full/5/6/e/466295-boxer-dog-wallpaper-1536x2048-lockscreen.jpg - as scraped_images/dog/8115cf9808.jpg
+dog: Expected 10, succeeded at saving 8.
 Searching on term &#39;cat&#39;...
-hey from search_images_ddg
 ...got 10 urls for term &#39;cat&#39;
-SUCCESS - saved https://www.wallpapergeeks.com/wp-content/uploads/2014/06/Cat-Mustache-Wallpaper.jpg - as ./.images/cat/ec6abc5cca.jpg
-ERROR - Could not save https://www.nationalgeographic.com/content/dam/animals/2019/12/cat-whisperers/cat-whisperers-nationalgeographic_1048225.ngsversion.1576164532899.adapt.1900.1.jpg - cannot identify image file &lt;_io.BytesIO object at 0x7fe5df4b0fb0&gt;
-SUCCESS - saved https://api.time.com/wp-content/uploads/2019/12/CatFilterReaction.jpg - as ./.images/cat/8d90a88666.jpg
-SUCCESS - saved https://www.sciencenews.org/wp-content/uploads/2020/03/033120_HT_covid-cat_feat-1028x579.jpg - as ./.images/cat/7655f2e055.jpg
-SUCCESS - saved https://upload.wikimedia.org/wikipedia/commons/d/dc/Grumpy_Cat_(14556024763)_(cropped).jpg - as ./.images/cat/d4df5a839c.jpg
-SUCCESS - saved https://scitechdaily.com/images/Cat-COVID-19-Mask.jpg - as ./.images/cat/d439145b0d.jpg
-SUCCESS - saved https://htc-wallpaper.com/wp-content/uploads/2015/05/Cute-cat-licking-its-paw.jpg - as ./.images/cat/a95061b4ae.jpg
-SUCCESS - saved https://www.hdnicewallpapers.com/Walls/Big/Cat/Beautiful_Angry_Kitten.jpg - as ./.images/cat/5db5815f59.jpg
-ERROR - Could not save https://www.askideas.com/media/25/American-Shorthair-Cat-Face-Picture.jpg - cannot identify image file &lt;_io.BytesIO object at 0x7fe5df4b0fb0&gt;
-SUCCESS - saved http://purrtacular.com/wp-content/uploads/2017/09/maya-extra-chromosome-cat-7.jpg - as ./.images/cat/a6a645f3cd.jpg
-cat: Expected 10, succeeded at saving 8.
+SUCCESS - saved https://www.sciencenews.org/wp-content/uploads/2020/03/033120_HT_covid-cat_feat-1028x579.jpg - as scraped_images/cat/7655f2e055.jpg
+SUCCESS - saved http://purrtacular.com/wp-content/uploads/2017/09/maya-extra-chromosome-cat-7.jpg - as scraped_images/cat/a6a645f3cd.jpg
+ERROR - Could not save https://www.nationalgeographic.com/content/dam/animals/2019/12/cat-whisperers/cat-whisperers-nationalgeographic_1048225.ngsversion.1576164532899.adapt.1900.1.jpg - cannot identify image file &lt;_io.BytesIO object at 0x7f0b82b723b0&gt;
+SUCCESS - saved https://wallpapers-hd-wide.com/wp-content/uploads/2015/11/cat_im_hungry-photo-wallpaper-1920x1200.jpg - as scraped_images/cat/253ac3f03b.jpg
+SUCCESS - saved https://www.hdnicewallpapers.com/Walls/Big/Cat/Beautiful_Angry_Kitten.jpg - as scraped_images/cat/5db5815f59.jpg
+SUCCESS - saved https://htc-wallpaper.com/wp-content/uploads/2015/05/Cute-cat-licking-its-paw.jpg - as scraped_images/cat/a95061b4ae.jpg
+SUCCESS - saved https://www.askideas.com/media/25/American-Shorthair-Cat-Face-Picture.jpg - as scraped_images/cat/4e0250916f.jpg
+SUCCESS - saved https://scitechdaily.com/images/Cat-COVID-19-Mask.jpg - as scraped_images/cat/d439145b0d.jpg
+SUCCESS - saved https://upload.wikimedia.org/wikipedia/commons/d/dc/Grumpy_Cat_(14556024763)_(cropped).jpg - as scraped_images/cat/d4df5a839c.jpg
+SUCCESS - saved http://www.hdwallpaper.nu/wp-content/uploads/2017/04/cat-11.jpg - as scraped_images/cat/1cbc68c4b5.jpg
+cat: Expected 10, succeeded at saving 9.
 Searching on term &#39;horse&#39;...
-hey from search_images_ddg
 ...got 10 urls for term &#39;horse&#39;
-SUCCESS - saved http://images6.fanpop.com/image/photos/35200000/White-Horse-horses-35203668-1920-1080.jpg - as ./.images/horse/96bce81f43.jpg
-SUCCESS - saved https://miro.medium.com/max/10368/1*ES15OJWo_LhqzYSI2JYanA.jpeg - as ./.images/horse/3f1f84d4b9.jpg
-ERROR - Could not save https://horsespirit.site/wp-content/uploads/2020/03/fries22.jpg - cannot identify image file &lt;_io.BytesIO object at 0x7fe5df527fb0&gt;
-SUCCESS - saved https://castlehorsefeeds.com/wp-content/uploads/2019/03/spring-horses.jpg - as ./.images/horse/21756204b2.jpg
-ERROR - Could not save https://horsespirit.site/wp-content/uploads/2020/04/shir21.jpg - cannot identify image file &lt;_io.BytesIO object at 0x7fe5df4b0d70&gt;
-ERROR - Could not save https://horsespirit.site/wp-content/uploads/2020/04/shir10.jpg - cannot identify image file &lt;_io.BytesIO object at 0x7fe5df4b0d70&gt;
-SUCCESS - saved http://thestyleinspiration.com/wp-content/uploads/2019/10/Arabian-Horses-.jpg - as ./.images/horse/b821ac7db9.jpg
-SUCCESS - saved https://assets.answersingenesis.org/img/cms/content/contentnode/og_image/horse-course.jpg - as ./.images/horse/8adbd9567c.jpg
-SUCCESS - saved https://fossilrim.org/wp-content/uploads/2017/01/Our-Animals-pic-horse-2.jpg - as ./.images/horse/8f588bdb25.jpg
-ERROR - Could not save https://hdwallpapers.move.pk/wp-content/uploads/2015/02/bueutiful-horse-running.jpg - cannot identify image file &lt;_io.BytesIO object at 0x7fe5df4b0b90&gt;
+SUCCESS - saved https://castlehorsefeeds.com/wp-content/uploads/2019/03/spring-horses.jpg - as scraped_images/horse/21756204b2.jpg
+SUCCESS - saved http://images6.fanpop.com/image/photos/35200000/White-Horse-horses-35203668-1920-1080.jpg - as scraped_images/horse/96bce81f43.jpg
+SUCCESS - saved https://assets.answersingenesis.org/img/cms/content/contentnode/og_image/horse-course.jpg - as scraped_images/horse/8adbd9567c.jpg
+ERROR - Could not save https://hdwallpapers.move.pk/wp-content/uploads/2015/02/bueutiful-horse-running.jpg - cannot identify image file &lt;_io.BytesIO object at 0x7f0b82b66dd0&gt;
+SUCCESS - saved https://miro.medium.com/max/10368/1*ES15OJWo_LhqzYSI2JYanA.jpeg - as scraped_images/horse/3f1f84d4b9.jpg
+ERROR - Could not save https://horsespirit.site/wp-content/uploads/2020/04/shir10.jpg - cannot identify image file &lt;_io.BytesIO object at 0x7f0b82b72e30&gt;
+SUCCESS - saved https://fossilrim.org/wp-content/uploads/2017/01/Our-Animals-pic-horse-2.jpg - as scraped_images/horse/8f588bdb25.jpg
+ERROR - Could not save https://horsespirit.site/wp-content/uploads/2020/04/shir21.jpg - cannot identify image file &lt;_io.BytesIO object at 0x7f0b82b72b90&gt;
+ERROR - Could not save https://horsespirit.site/wp-content/uploads/2020/03/fries22.jpg - cannot identify image file &lt;_io.BytesIO object at 0x7f0b82b72e30&gt;
+SUCCESS - saved http://thestyleinspiration.com/wp-content/uploads/2019/10/Arabian-Horses-.jpg - as scraped_images/horse/b821ac7db9.jpg
 horse: Expected 10, succeeded at saving 6.
 </pre>
 </div>
@@ -297,7 +294,7 @@ horse: Expected 10, succeeded at saving 6.
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>ls <span class="o">{</span>target_path<span class="o">}</span>/*
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>ls <span class="o">{</span>target_dir<span class="o">}</span>/*
 </pre></div>
 
     </div>
@@ -310,15 +307,138 @@ horse: Expected 10, succeeded at saving 6.
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>./.images/cat:
-5db5815f59.jpg	8d90a88666.jpg	a95061b4ae.jpg	d4df5a839c.jpg
-7655f2e055.jpg	a6a645f3cd.jpg	d439145b0d.jpg	ec6abc5cca.jpg
+<pre>scraped_images/cat:
+1cbc68c4b5.jpg	4e0250916f.jpg	7655f2e055.jpg	a95061b4ae.jpg	d4df5a839c.jpg
+253ac3f03b.jpg	5db5815f59.jpg	a6a645f3cd.jpg	d439145b0d.jpg
 
-./.images/dog:
-045bb79206.jpg	6a374b11d6.jpg	8cee87adc0.jpg	ac7120d53a.jpg	dae216cf27.jpg
-1524e33153.jpg	88bb07cac8.jpg	9b59f312a8.jpg	b78a4c4163.jpg
+scraped_images/dog:
+045bb79206.jpg	8115cf9808.jpg	8cee87adc0.jpg	b78a4c4163.jpg
+1524e33153.jpg	88bb07cac8.jpg	ac7120d53a.jpg	dae216cf27.jpg
 
-./.images/horse:
+scraped_images/horse:
+21756204b2.jpg	8adbd9567c.jpg	96bce81f43.jpg
+3f1f84d4b9.jpg	8f588bdb25.jpg	b821ac7db9.jpg
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's make a bunch of thumbnails. So, for every file in target_path, load the image, shrink it, and save it to a similar filename in a similar directory structure</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="get_thumb_urls" class="doc_header"><code>get_thumb_urls</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/scrape.py#L133" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_thumb_urls</code>(<strong><code>images_dir</code></strong>:<code>str</code>=<em><code>'scraped_images'</code></em>, <strong><code>verbose</code></strong>:<code>bool</code>=<em><code>False</code></em>)</p>
+</blockquote>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">urls</span> <span class="o">=</span> <span class="n">get_thumb_urls</span><span class="p">(</span><span class="n">target_dir</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;urls = &quot;</span><span class="p">,</span><span class="n">urls</span><span class="p">)</span>
+<span class="n">HTML</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&lt;img src=</span><span class="si">{</span><span class="n">urls</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&gt;&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Drive already mounted at /gdrive; to attempt to forcibly remount, call drive.mount(&#34;/gdrive&#34;, force_remount=True).
+Thumbnails saved to Google Drive in /gdrive/My Drive/scraped_images_thumbs. Waiting til URLs are ready...
+urls =  [&#39;https://drive.google.com/uc?id=1owIYMyW7yaYlZ4QcJ8P3iIxkl_mCN-GX&#39;, &#39;https://drive.google.com/uc?id=1ouDGeAQzpjMeDoRD4DDcJuKfIeJLpj4y&#39;, &#39;https://drive.google.com/uc?id=1orLyPGdQgZsSXfN4ltnoSu5ZEaVAEQQc&#39;, &#39;https://drive.google.com/uc?id=1oo7SyB4tLl6xqQ267laiqG0GeObJG3H5&#39;, &#39;https://drive.google.com/uc?id=1okbo0hPPO-5aSHsWzTOSZHqziCVbi_k5&#39;, &#39;https://drive.google.com/uc?id=1ohizi3fqEVHckPA_290e0qL5iwfr3gHa&#39;, &#39;https://drive.google.com/uc?id=1ocG2ktQwMR59rXGi3iCoLyz3-z68jLAZ&#39;, &#39;https://drive.google.com/uc?id=1obSpwG7h7IBrxtgXK4sf5xyQ8k0HIuYi&#39;, &#39;https://drive.google.com/uc?id=1obNLbRzY3TH6Fhuw-d2gJhzQ00pISfh3&#39;, &#39;https://drive.google.com/uc?id=1oXnInFnTZt_zbE8RPQFfSUSIeCgUjxpw&#39;, &#39;https://drive.google.com/uc?id=1oVnsDMWUp-lToQWqjRM_jV1mpOcVL_lt&#39;, &#39;https://drive.google.com/uc?id=1oSCEheCHxd5jZZjuga9t9fyiRp-HClo6&#39;, &#39;https://drive.google.com/uc?id=1oPBvQATyjXZuIe6yveOSS84BTBKZvLlP&#39;, &#39;https://drive.google.com/uc?id=1oLz2ysR44GE5LvnDwLWgmCx9Mred7kgh&#39;, &#39;https://drive.google.com/uc?id=1oLeQe_zPwFAZJX7IJ1CXSOgtxYbzYTVa&#39;, &#39;https://drive.google.com/uc?id=1oKI2aqaLh3feRZjFQy4ep0Gyw19k6DqV&#39;, &#39;https://drive.google.com/uc?id=1oIXdxaqnqu0HFFiybAmwbBdopUiwxerf&#39;, &#39;https://drive.google.com/uc?id=1oE6sY6zhNnsjjBHaq1BN-eBY4HY_wfKU&#39;, &#39;https://drive.google.com/uc?id=1ndebiAorMiSryGv7ooTbCdRNMK6dveLA&#39;, &#39;https://drive.google.com/uc?id=1ncpsTljSnNU3Z7Mh6Hd0opbLOsPHWg9w&#39;, &#39;https://drive.google.com/uc?id=1nbwRc4PA_oAPnIMCJH4dG06k6_lD7c6q&#39;, &#39;https://drive.google.com/uc?id=1nYsWvS_t0RF4e2m44RGSqIF9Xzf698cq&#39;, &#39;https://drive.google.com/uc?id=1nSzxjarVG26zFuKZEUvzVi28QPC9V9co&#39;]
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<img src=https://drive.google.com/uc?id=1owIYMyW7yaYlZ4QcJ8P3iIxkl_mCN-GX>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>ls /gdrive/My<span class="se">\ </span>Drive/scraped_images_thumbs/*
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>&#39;/gdrive/My Drive/scraped_images_thumbs/cat&#39;:
+1cbc68c4b5.jpg	4e0250916f.jpg	7655f2e055.jpg	a95061b4ae.jpg	d4df5a839c.jpg
+253ac3f03b.jpg	5db5815f59.jpg	a6a645f3cd.jpg	d439145b0d.jpg
+
+&#39;/gdrive/My Drive/scraped_images_thumbs/dog&#39;:
+045bb79206.jpg	8115cf9808.jpg	8cee87adc0.jpg	b78a4c4163.jpg
+1524e33153.jpg	88bb07cac8.jpg	ac7120d53a.jpg	dae216cf27.jpg
+
+&#39;/gdrive/My Drive/scraped_images_thumbs/horse&#39;:
 21756204b2.jpg	8adbd9567c.jpg	96bce81f43.jpg
 3f1f84d4b9.jpg	8f588bdb25.jpg	b821ac7db9.jpg
 </pre>
@@ -406,7 +526,7 @@ Loaded 6 images for horse
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="browse_images" class="doc_header"><code>browse_images</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/scrape.py#L120" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>browse_images</code>(<strong><code>dataset</code></strong>)</p>
+<h4 id="browse_images" class="doc_header"><code>browse_images</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/scrape.py#L175" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>browse_images</code>(<strong><code>dataset</code></strong>)</p>
 </blockquote>
 
 </div>

@@ -9,9 +9,9 @@ def softmax(x):
     e_x = np.exp(x - np.max(x, axis=-1, keepdims=True))
     return e_x / e_x.sum(axis=-1, keepdims=True)
 
-def calc_prob(n=1000, s=2.5):
+def calc_prob(n=1000, s=2.5, dim=3):
     "s = 'scale': how strongly to 'push' the points towards the ends"
-    logits = (np.random.rand(n,3)*2-1)*s
+    logits = (np.random.rand(n,dim)*2-1)*s
     prob = softmax(logits)
     targ = np.argmax(prob, axis=1)  # target values
     return prob, targ

@@ -5,6 +5,7 @@ __all__ = ['triangle3d_plotly', 'TrianglePlotBokeh', 'CDH_SAMPLE_URLS', 'VizPred
 
 # Cell
 import plotly.graph_objects as go
+import numpy as np
 
 def triangle3d_plotly(
     pred,

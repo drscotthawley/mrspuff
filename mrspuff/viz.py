@@ -18,9 +18,11 @@ def triangle3d_plotly(
     cmap='jet'):
     "plot a 3d triangle plot using plot.ly."
 
-    colors = pred if (targ is None) else [ ['red','green','blue','orange'][i] for i in targ]
+    if targ is None:
+        colors, dim = pred, 3
+    else:
+        colors, dim = [ ['red','green','blue','orange'][i] for i in targ], max(targ)+1
 
-    dim = max(targ)+1
     poles = pred[0:dim,:] if poles_included else np.eye(dim)
 
     fig = go.Figure(data=[go.Scatter3d(x=pred[:,0], y=pred[:,1], z=pred[:,2],
@@ -53,7 +55,6 @@ def triangle3d_plotly(
 from bokeh.plotting import figure, ColumnDataSource, output_file, show
 from bokeh.io import output_notebook
 from bokeh.models import Label
-import numpy as np
 from fastcore.basics import *
 
 # cat-dog-horse sample image urls (Warning: these may change & stop working; perhaps switch to Imgur)

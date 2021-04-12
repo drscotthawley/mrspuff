@@ -2,7 +2,7 @@
 > A library for Deep Learning education. (deep learning <=> having a school at the bottom of the ocean)
 
 
-This file will become your README and also the index of your documentation.
+![mrspuff image](images/mrspuff_logo.png)
 
 ## Install
 

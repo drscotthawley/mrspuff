@@ -13,7 +13,9 @@ index = {"search_images_ddg": "scrape.ipynb",
          "calc_prob": "utils.ipynb",
          "triangle3d_plotly": "viz.ipynb",
          "TrianglePlotBokeh": "viz.ipynb",
-         "VizPreds": "viz.ipynb"}
+         "CDH_SAMPLE_URLS": "viz.ipynb",
+         "VizPreds": "viz.ipynb",
+         "image_and_bars": "viz.ipynb"}
 
 modules = ["scrape.py",
            "utils.py",

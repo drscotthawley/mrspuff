@@ -7,7 +7,7 @@ __all__ = ['search_images_ddg', 'download_and_save', 'search_and_download', 'Cat
 import re
 import requests
 import json
-#from fastai.fastcore import *
+#from fastcore import *
 
 #modified from fastbook utils, https://github.com/fastai/course20/blob/master/fastbook/__init__.py
 #by Jeremy Howard and Sylvain Gugger.  Just removed the .decode() formatting, and replaced L() with list()

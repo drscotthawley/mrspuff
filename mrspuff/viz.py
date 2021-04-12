@@ -90,9 +90,9 @@ class TrianglePlotBokeh():
             source = ColumnDataSource( data=dict(x=x, y=y, desc=[self.labels[i]]*n, imgs=urls ) )
             self.p.circle('x', 'y', size=6, line_color=self.colors[i], fill_color=self.colors[i], source=source)
 
-        self.p.add_layout( Label(x=-1, y=0, text=labels[0], text_align='right'))
-        self.p.add_layout( Label(x=1, y=0, text=labels[1]))
-        self.p.add_layout( Label(x=0, y=1, text=labels[2], text_align='center'))
+        self.p.add_layout( Label(x=-1, y=0, text=self.labels[0], text_align='right'))
+        self.p.add_layout( Label(x=1, y=0, text=self.labels[1]))
+        self.p.add_layout( Label(x=0, y=1, text=self.labels[2], text_align='center'))
 
         if self.show_bounds: pass   # TODO: add this
 

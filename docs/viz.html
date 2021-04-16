@@ -32,49 +32,38 @@ nb_path: "viz.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
 
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span> 
-<span class="kn">from</span> <span class="nn">fastcore.basics</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">mrspuff.utils</span> <span class="kn">import</span> <span class="n">calc_prob</span>
+</div>
+    {% endraw %}
 
-<span class="k">class</span> <span class="nc">TrianglePlot2D_MPL</span><span class="p">():</span>
-    <span class="s2">&quot;Plot categority predictions for 3 categories - matplotlib style&quot;</span>
-    <span class="sd">&quot;&quot;&quot; pred: (n,3): probability values of n data points in each of 3 classes</span>
-<span class="sd">        targ: (n):   target value (0,1,2) for each data point&quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pred</span><span class="p">,</span> <span class="n">targ</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;0&#39;</span><span class="p">,</span><span class="s1">&#39;1&#39;</span><span class="p">,</span><span class="s1">&#39;2&#39;</span><span class="p">],</span> <span class="n">show_bounds</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="n">store_attr</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">labels</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">labels</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">labels</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">show_bounds</span><span class="p">:</span> <span class="c1"># draw lines for decision boundaries, and &#39;ideal&#39; points</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mf">0.333</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="o">.</span><span class="mi">5</span><span class="p">],[</span><span class="mf">0.333</span><span class="p">,</span><span class="o">.</span><span class="mi">5</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="o">-.</span><span class="mi">5</span><span class="p">],[</span><span class="mf">0.333</span><span class="p">,</span><span class="o">.</span><span class="mi">5</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span> 
-        <span class="n">eps</span> <span class="o">=</span> <span class="mf">0.02</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">eps</span><span class="p">,</span><span class="mi">1</span><span class="o">+</span><span class="n">eps</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="n">eps</span><span class="p">,</span><span class="mi">1</span><span class="o">+</span><span class="n">eps</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">do_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">colors</span> <span class="o">=</span> <span class="n">pred</span> <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">targ</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="k">else</span> <span class="p">[</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span><span class="s1">&#39;green&#39;</span><span class="p">,</span><span class="s1">&#39;blue&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">targ</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">scat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pred</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">pred</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">pred</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">facecolors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">plt</span>
-    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">pred</span><span class="p">,</span><span class="n">targ</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pred</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">targ</span> <span class="o">=</span> <span class="n">pred</span><span class="p">,</span> <span class="n">targ</span> 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_plot</span><span class="p">()</span>
-</pre></div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
-    </div>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="TrianglePlot2D_MPL" class="doc_header"><code>class</code> <code>TrianglePlot2D_MPL</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L20" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TrianglePlot2D_MPL</code>(<strong><code>pred</code></strong>, <strong><code>targ</code></strong>=<em><code>None</code></em>, <strong><code>labels</code></strong>=<em><code>['0', '1', '2']</code></em>, <strong><code>show_bounds</code></strong>=<em><code>True</code></em>)</p>
+</blockquote>
+<p>Plot categority predictions for 3 categories - matplotlib style</p>
+
+</div>
+
+</div>
+
 </div>
 </div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -164,7 +153,7 @@ nb_path: "viz.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="TrianglePlot3D_Plotly" class="doc_header"><code>class</code> <code>TrianglePlot3D_Plotly</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L10" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TrianglePlot3D_Plotly</code>(<strong><code>pred</code></strong>, <strong><code>targ</code></strong>=<em><code>None</code></em>, <strong><code>labels</code></strong>=<em><code>['x', 'y', 'z']</code></em>, <strong><code>show_bounds</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>show_labels</code></strong>:<code>bool</code>=<em><code>True</code></em>, <strong><code>show_axes</code></strong>:<code>bool</code>=<em><code>True</code></em>, <strong><code>poles_included</code></strong>=<em><code>False</code></em>, <strong><code>cmap</code></strong>=<em><code>'jet'</code></em>)</p>
+<h2 id="TrianglePlot3D_Plotly" class="doc_header"><code>class</code> <code>TrianglePlot3D_Plotly</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L52" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TrianglePlot3D_Plotly</code>(<strong><code>pred</code></strong>, <strong><code>targ</code></strong>=<em><code>None</code></em>, <strong><code>labels</code></strong>=<em><code>['x', 'y', 'z']</code></em>, <strong><code>show_bounds</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>show_labels</code></strong>:<code>bool</code>=<em><code>True</code></em>, <strong><code>show_axes</code></strong>:<code>bool</code>=<em><code>True</code></em>, <strong><code>poles_included</code></strong>=<em><code>False</code></em>, <strong><code>cmap</code></strong>=<em><code>'jet'</code></em>)</p>
 </blockquote>
 
 </div>
@@ -191,9 +180,7 @@ nb_path: "viz.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">mrspuff.utils</span> <span class="kn">import</span> <span class="n">calc_prob</span>
-
-<span class="n">prob</span><span class="p">,</span> <span class="n">targ</span> <span class="o">=</span> <span class="n">calc_prob</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">prob</span><span class="p">,</span> <span class="n">targ</span> <span class="o">=</span> <span class="n">calc_prob</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
 <span class="n">TrianglePlot3D_Plotly</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="n">targ</span><span class="o">=</span><span class="n">targ</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">show_bounds</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">do_plot</span><span class="p">()</span>
 </pre></div>
 
@@ -278,7 +265,7 @@ if (outputEl) {{
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="TrianglePlot2D_Bokeh" class="doc_header"><code>class</code> <code>TrianglePlot2D_Bokeh</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L71" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TrianglePlot2D_Bokeh</code>(<strong><code>pred</code></strong>, <strong><code>targ</code></strong>, <strong><code>labels</code></strong>:<code>list</code>=<em><code>['0', '1', '2']</code></em>, <strong><code>show_bounds</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>show_labels</code></strong>:<code>bool</code>=<em><code>True</code></em>, <strong><code>show_axes</code></strong>:<code>bool</code>=<em><code>True</code></em>, <strong><code>urls</code></strong>:<code>list</code>=<em><code>None</code></em>)</p>
+<h2 id="TrianglePlot2D_Bokeh" class="doc_header"><code>class</code> <code>TrianglePlot2D_Bokeh</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L110" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TrianglePlot2D_Bokeh</code>(<strong><code>pred</code></strong>, <strong><code>targ</code></strong>, <strong><code>labels</code></strong>:<code>list</code>=<em><code>['0', '1', '2']</code></em>, <strong><code>show_bounds</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>show_labels</code></strong>:<code>bool</code>=<em><code>True</code></em>, <strong><code>show_axes</code></strong>:<code>bool</code>=<em><code>True</code></em>, <strong><code>urls</code></strong>:<code>list</code>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>This gives a 2d plot with image tooltips when the mouse hovers over a data point.</p>
 
@@ -322,10 +309,10 @@ if (outputEl) {{
 
 
 
-<div id="fbd7c853-74a6-45bd-8cd3-db6909c60080"></div>
+<div id="cc38d019-acdb-43c8-a3de-7dbc7edbffa5"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#fbd7c853-74a6-45bd-8cd3-db6909c60080');
+var element = $('#cc38d019-acdb-43c8-a3de-7dbc7edbffa5');
 
 (function(root) {
   function now() {
@@ -646,10 +633,10 @@ var element = $('#fbd7c853-74a6-45bd-8cd3-db6909c60080');
 
 
 
-<div id="e864da65-0574-439b-a0ab-33dd95693c8c"></div>
+<div id="56c72aef-3ad6-4649-8f80-7df23a41d362"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#e864da65-0574-439b-a0ab-33dd95693c8c');
+var element = $('#56c72aef-3ad6-4649-8f80-7df23a41d362');
 (function(root) {
   function embed_document(root) {
     
@@ -698,7 +685,7 @@ var element = $('#e864da65-0574-439b-a0ab-33dd95693c8c');
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="VizPreds" class="doc_header"><code>class</code> <code>VizPreds</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L148" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>VizPreds</code>(<strong><code>method</code></strong>=<em><code>TrianglePlot2D_Bokeh</code></em>) :: <code>Callback</code></p>
+<h2 id="VizPreds" class="doc_header"><code>class</code> <code>VizPreds</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L184" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>VizPreds</code>(<strong><code>method</code></strong>=<em><code>TrianglePlot2D_Bokeh</code></em>) :: <code>Callback</code></p>
 </blockquote>
 <p>This fastai callback is designed to call the bokeh triangle plot with each batch of training, using validation data.</p>
 
@@ -730,7 +717,7 @@ var element = $('#e864da65-0574-439b-a0ab-33dd95693c8c');
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="image_and_bars" class="doc_header"><code>image_and_bars</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L163" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>image_and_bars</code>(<strong><code>values</code></strong>, <strong><code>labels</code></strong>, <strong><code>image_url</code></strong>, <strong><code>title</code></strong>=<em><code>'Probabilities'</code></em>, <strong><code>height</code></strong>=<em><code>225</code></em>, <strong><code>width</code></strong>=<em><code>500</code></em>)</p>
+<h4 id="image_and_bars" class="doc_header"><code>image_and_bars</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L199" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>image_and_bars</code>(<strong><code>values</code></strong>, <strong><code>labels</code></strong>, <strong><code>image_url</code></strong>, <strong><code>title</code></strong>=<em><code>'Probabilities'</code></em>, <strong><code>height</code></strong>=<em><code>225</code></em>, <strong><code>width</code></strong>=<em><code>500</code></em>)</p>
 </blockquote>
 <p>Plot an image along with a bar graph</p>
 
@@ -983,7 +970,7 @@ if (outputEl) {{
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="sorted_eig" class="doc_header"><code>sorted_eig</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L199" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>sorted_eig</code>(<strong><code>A</code></strong>)</p>
+<h4 id="sorted_eig" class="doc_header"><code>sorted_eig</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L233" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>sorted_eig</code>(<strong><code>A</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -1007,7 +994,7 @@ if (outputEl) {{
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="pca_proj" class="doc_header"><code>pca_proj</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L205" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>pca_proj</code>(<strong><code>data</code></strong>, <strong><code>dim</code></strong>=<em><code>3</code></em>)</p>
+<h4 id="pca_proj" class="doc_header"><code>pca_proj</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L239" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>pca_proj</code>(<strong><code>data</code></strong>, <strong><code>dim</code></strong>=<em><code>3</code></em>)</p>
 </blockquote>
 <p>Projects data using Principal Component Analysis</p>
 

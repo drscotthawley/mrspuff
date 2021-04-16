@@ -193,4 +193,4 @@ def exhibit_urls(targ, labels=['cat','dog','horse']):
     for t in range(dim): # for each set of targets, scrape that many urls for the label
         label, n = labels[t], np.sum(targ == t )# count how many of each target there are
         url_store[t] = search_images_ddg(label)
-    return L([ url_store[targ[t]].pop(0) for t in range(len(targ)) ]) # supply a url matching each target
+    return [ url_store[targ[t]].pop(0) for t in range(len(targ)) ] # supply a url matching each target

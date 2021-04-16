@@ -21,13 +21,16 @@ class TrianglePlot2D_MPL():
     "Plot categority predictions for 3 categories - matplotlib style"
     """ pred: (n,3): probability values of n data points in each of 3 classes
         targ: (n):   target value (0,1,2) for each data point"""
-    def __init__(self, pred, targ=None, labels=['0','1','2'], show_bounds=True):
+    def __init__(self, pred, targ=None, labels=['0','1','2'], show_labels=True, show_bounds=True, comment=''):
         store_attr()
         self.fig = plt.figure(figsize=(5,4))
         self.ax = self.fig.add_subplot(111)
-        self.ax.text(-1,0, labels[0], ha='right', va='top', size=12)
-        self.ax.text(1,0, labels[1], size=12, va='top')
-        self.ax.text(0,1, labels[2], va='bottom', ha='center', size=12)
+        if show_labels:
+            self.ax.text(-1,0, labels[0], ha='right', va='top', size=12)
+            self.ax.text(1,0, labels[1], size=12, va='top')
+            self.ax.text(0,1, labels[2], va='bottom', ha='center', size=12)
+        if comment != '':
+            self.ax.text(-1.1,1, comment, va='bottom', ha='left', size=12)
         if show_bounds: # draw lines for decision boundaries, and 'ideal' points
             self.ax.plot([0,0],[0.333,0], color='black')
             self.ax.plot([0,.5],[0.333,.5], color='black')
@@ -40,11 +43,11 @@ class TrianglePlot2D_MPL():
         self.ax.set_ylim(-eps,1+eps)
         self.ax.set_axis_off()
     def do_plot(self):
-        colors = pred if (self.targ is None) else [ ['red','green','blue'][i] for i in self.targ]
+        colors = self.pred if (self.targ is None) else [ ['red','green','blue'][i] for i in self.targ]
         self.scat = self.ax.scatter(self.pred.T[1]-self.pred.T[0],self.pred.T[2], facecolors=colors, marker='o')
         plt.tight_layout()
         return plt
-    def update(self,pred,targ):
+    def update(self, pred, targ):
         self.pred, self.targ = pred, targ
         return self.do_plot()
 

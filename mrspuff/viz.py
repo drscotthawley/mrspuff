@@ -130,7 +130,7 @@ class TrianglePlot2D_Bokeh():
             ) -> None:                  # __init__ isn't allowed to return anything (it's a Python thing)
         store_attr()
         output_notebook()   # output_file("toolbar.html")
-        self.colors = ["blue","red","green"]
+        self.colors =  ['red','green','blue']
         self.TOOLTIPS_HTML = """
             <div>
                 <div>

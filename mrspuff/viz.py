@@ -77,7 +77,7 @@ class TrianglePlot3D_Plotly():
             mode='markers', marker=dict(size=5, opacity=0.6, color=colors))])
         if self.show_labels:
             fig.update_layout(scene = dict(
-                xaxis_title=f'{self.labels[0]} - ness', yaxis_title=f'{labels[1]} - ness', zaxis_title=f'{self.labels[2]} - ness',
+                xaxis_title=f'{self.labels[0]} - ness', yaxis_title=f'{self.labels[1]} - ness', zaxis_title=f'{self.labels[2]} - ness',
                 # add little arrows pointing to the "poles" or tips
                 annotations = [ dict(text=self.labels[i], xanchor='center', x=poles[i,0], y=poles[i,1], z=poles[i,2]) for i in range(dim)]),
                 width=700, margin=dict(r=20, b=10, l=10, t=10), showlegend=False

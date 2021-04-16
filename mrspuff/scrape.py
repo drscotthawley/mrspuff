@@ -20,7 +20,7 @@ import time
 from IPython.display import HTML
 import matplotlib.pyplot as plt
 from ipywidgets import interact
-
+from .utils import calc_prob
 
 #modified from fastbook utils, https://github.com/fastai/course20/blob/master/fastbook/__init__.py
 #by Jeremy Howard and Sylvain Gugger.  Just removed the .decode() formatting, and replaced L() with list()

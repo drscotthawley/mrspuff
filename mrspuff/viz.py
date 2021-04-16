@@ -11,6 +11,7 @@ from fastcore.basics import *
 from fastai.callback.core import Callback
 from fastai.callback.progress import ProgressCallback
 from .utils import calc_prob
+from .scrape import exhibit_urls
 import plotly.graph_objects as go
 from bokeh.plotting import figure, ColumnDataSource, output_file, show
 from bokeh.io import output_notebook
@@ -124,7 +125,8 @@ class TrianglePlot2D_Bokeh():
             show_bounds:bool=False,     # show inter-class boundaries or not
             show_labels:bool=True,      # point to class ideal poles with arrows & labels
             show_axes:bool=True,        # show axes or not
-            urls:list=None              # image urls to display upon mouseover (default: stock images)
+            urls:list=None,              # image urls to display upon mouseover (default: stock images)
+            comment:str=''              # just a comment to put in the top left corner
             ) -> None:                  # __init__ isn't allowed to return anything (it's a Python thing)
         store_attr()
         output_notebook()   # output_file("toolbar.html")
@@ -147,6 +149,7 @@ class TrianglePlot2D_Bokeh():
                 </div> -->
             </div>
         """
+        assert self.targ is not None, 'TODO: right now we require targ'
         self.clear()
         return
 
@@ -161,20 +164,20 @@ class TrianglePlot2D_Bokeh():
             self.p.line([0,.5],[0.333,.5], line_width=2, color='black')
             self.p.line([0,-.5],[0.333,.5], line_width=2, color='black')
 
-        for i in range(self.pred.shape[-1]):  # for each category
-            jind = np.where(self.targ == i)
-            x, y = xs[jind], ys[jind]
-            n = len(y)
-            urls = [CDH_SAMPLE_URLS[i]]*n if self.urls is None else self.urls
-            source = ColumnDataSource( data=dict(x=x, y=y, desc=[self.labels[i]]*n, imgs=urls ) )
-            self.p.circle('x', 'y', size=6, line_color=self.colors[i], fill_color=self.colors[i], source=source)
+        n = self.pred.shape[0]
+        full_labels = [self.labels[self.targ[i]] for i in range(n)]
+        full_colors = [self.colors[self.targ[i]] for i in range(n)]
+        full_urls = self.urls if self.urls is not None else [CDH_SAMPLE_URLS[self.targ[i]] for i in range(n)]
+        source = ColumnDataSource( data=dict(x=xs, y=ys, desc=full_labels, imgs=full_urls, colors=full_colors ) )
+        self.p.circle('x', 'y', size=6, line_color='colors', fill_color='colors', source=source)
 
         if self.show_labels:
             self.p.add_layout( Label(x=-1, y=0, text=self.labels[0], text_align='right'))
             self.p.add_layout( Label(x=1, y=0, text=self.labels[1]))
             self.p.add_layout( Label(x=0, y=1, text=self.labels[2], text_align='center'))
 
-
+        if self.comment != '':
+            self.p.add_layout( Label(x=-1, y=0.95, text=self.comment, text_align='left'))
 
         return self.p
 

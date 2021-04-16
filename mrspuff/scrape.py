@@ -8,7 +8,6 @@ import numpy as np
 import re
 import requests
 import json
-#from fastcore import *
 import os, io
 from PIL import Image, ImageOps
 import hashlib
@@ -21,6 +20,9 @@ from IPython.display import HTML
 import matplotlib.pyplot as plt
 from ipywidgets import interact
 from .utils import calc_prob
+from fastcore.basics import *  # this gets us the L class and store_attr()
+
+# Cell
 
 #modified from fastbook utils, https://github.com/fastai/course20/blob/master/fastbook/__init__.py
 #by Jeremy Howard and Sylvain Gugger.  Just removed the .decode() formatting, and replaced L() with list()
@@ -44,8 +46,8 @@ def search_images_ddg(key,max_n=200):
             for obj in data['results']:
                 urls.append(obj['image'])
                 max_n = max_n - 1
-                if max_n < 1: return list(set(urls))     # dedupe
-            if 'next' not in data: return list(set(urls))
+                if max_n < 1: return L(set(urls))     # dedupe
+            if 'next' not in data: return L(set(urls))
             requestUrl = url + data['next']
         except:
             pass
@@ -192,4 +194,4 @@ def exhibit_urls(targ, labels=['cat','dog','horse']):
     for t in range(dim): # for each set of targets, scrape that many urls for the label
         label, n = labels[t], np.sum(targ == t )# count how many of each target there are
         url_store[t] = search_images_ddg(label)
-    return [ url_store[targ[t]].pop(0) for t in range(len(targ)) ] # supply a url matching each target
+    return L([ url_store[targ[t]].pop(0) for t in range(len(targ)) ]) # supply a url matching each target

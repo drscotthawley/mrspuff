@@ -67,7 +67,7 @@ class TrianglePlot3D_Plotly():
     def do_plot(self):
 
         if self.targ is None:
-            colors, dim = pred, 3
+            colors, dim = self.pred, 3
         else:
             colors, dim = [ ['red','green','blue','orange'][i] for i in self.targ], max(self.targ)+1
 

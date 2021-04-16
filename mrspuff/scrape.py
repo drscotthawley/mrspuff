@@ -20,7 +20,6 @@ from IPython.display import HTML
 import matplotlib.pyplot as plt
 from ipywidgets import interact
 from .utils import calc_prob
-from fastcore.basics import *  # this gets us the L class and store_attr()
 
 # Cell
 
@@ -46,8 +45,8 @@ def search_images_ddg(key,max_n=200):
             for obj in data['results']:
                 urls.append(obj['image'])
                 max_n = max_n - 1
-                if max_n < 1: return L(set(urls))     # dedupe
-            if 'next' not in data: return L(set(urls))
+                if max_n < 1: return list(set(urls))     # dedupe
+            if 'next' not in data: return list(set(urls))
             requestUrl = url + data['next']
         except:
             pass

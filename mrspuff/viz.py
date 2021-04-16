@@ -61,7 +61,6 @@ class TrianglePlot3D_Plotly():
 from bokeh.plotting import figure, ColumnDataSource, output_file, show
 from bokeh.io import output_notebook
 from bokeh.models import Label
-from fastcore.basics import *
 
 # cat-dog-horse sample image urls (Warning: these may change & stop working; perhaps switch to Imgur)
 CDH_SAMPLE_URLS = ['https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Felis_silvestris_catus_lying_on_rice_straw.jpg/220px-Felis_silvestris_catus_lying_on_rice_straw.jpg',

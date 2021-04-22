@@ -31,7 +31,8 @@ nb_path: "index.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><img src="/mrspuff/images/mrspuff_logo.png" alt="mrspuff image"></p>
+<p><img src="https://github.com/drscotthawley/mrspuff/blob/master/images/mrspuff_logo.png?raw=1" alt="mrspuff image"></p>
+<h2 id="About">About<a class="anchor-link" href="#About"> </a></h2><p><code>mrspuff</code> is a collection of teaching tools for deep learning, intended to work well on <a href="https://colab.research.google.com/">Google Colab</a> and interface with <a href="https://github.com/fastai/fastai">fast.ai</a>.</p>
 
 </div>
 </div>
@@ -57,7 +58,16 @@ nb_path: "index.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Work in progress.</p>
+<p>This is still under development, not ready for widespread public use yet.</p>
+<p>If you want to try it,
+you may either import individual routines, as in</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mrspuff.viz</span> <span class="kn">import</span> <span class="n">image_and_bars</span>
+</pre></div>
+<p>or import the whole package and access its submodules, e.g.:</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">mrspuff</span> <span class="k">as</span> <span class="nn">msp</span>
+
+<span class="n">p</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">mrspuff</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">calc_prob</span><span class="p">()</span>
+</pre></div>
 
 </div>
 </div>

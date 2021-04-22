@@ -47,7 +47,7 @@ nb_path: "viz.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="TrianglePlot2D_MPL" class="doc_header"><code>class</code> <code>TrianglePlot2D_MPL</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L21" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TrianglePlot2D_MPL</code>(<strong><code>pred</code></strong>, <strong><code>targ</code></strong>=<em><code>None</code></em>, <strong><code>labels</code></strong>=<em><code>['0', '1', '2']</code></em>, <strong><code>show_labels</code></strong>=<em><code>True</code></em>, <strong><code>show_bounds</code></strong>=<em><code>True</code></em>, <strong><code>comment</code></strong>=<em><code>''</code></em>)</p>
+<h2 id="TrianglePlot2D_MPL" class="doc_header"><code>class</code> <code>TrianglePlot2D_MPL</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L23" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TrianglePlot2D_MPL</code>(<strong><code>pred</code></strong>, <strong><code>targ</code></strong>=<em><code>None</code></em>, <strong><code>labels</code></strong>=<em><code>['0', '1', '2']</code></em>, <strong><code>show_labels</code></strong>=<em><code>True</code></em>, <strong><code>show_bounds</code></strong>=<em><code>True</code></em>, <strong><code>comment</code></strong>=<em><code>''</code></em>)</p>
 </blockquote>
 <p>Plot categority predictions for 3 categories - matplotlib style</p>
 
@@ -153,7 +153,31 @@ nb_path: "viz.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="TrianglePlot3D_Plotly" class="doc_header"><code>class</code> <code>TrianglePlot3D_Plotly</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L56" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TrianglePlot3D_Plotly</code>(<strong><code>pred</code></strong>, <strong><code>targ</code></strong>=<em><code>None</code></em>, <strong><code>labels</code></strong>=<em><code>['x', 'y', 'z']</code></em>, <strong><code>show_bounds</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>show_labels</code></strong>:<code>bool</code>=<em><code>True</code></em>, <strong><code>show_axes</code></strong>:<code>bool</code>=<em><code>True</code></em>, <strong><code>poles_included</code></strong>=<em><code>False</code></em>, <strong><code>cmap</code></strong>=<em><code>'jet'</code></em>)</p>
+<h4 id="setup_plotly" class="doc_header"><code>setup_plotly</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L60" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>setup_plotly</code>()</p>
+</blockquote>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="TrianglePlot3D_Plotly" class="doc_header"><code>class</code> <code>TrianglePlot3D_Plotly</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L71" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TrianglePlot3D_Plotly</code>(<strong><code>pred</code></strong>, <strong><code>targ</code></strong>=<em><code>None</code></em>, <strong><code>labels</code></strong>=<em><code>['x', 'y', 'z']</code></em>, <strong><code>show_bounds</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>show_labels</code></strong>:<code>bool</code>=<em><code>True</code></em>, <strong><code>show_axes</code></strong>:<code>bool</code>=<em><code>True</code></em>, <strong><code>poles_included</code></strong>=<em><code>False</code></em>, <strong><code>cmap</code></strong>=<em><code>'jet'</code></em>)</p>
 </blockquote>
 
 </div>
@@ -265,7 +289,32 @@ if (outputEl) {{
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="TrianglePlot2D_Bokeh" class="doc_header"><code>class</code> <code>TrianglePlot2D_Bokeh</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L114" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TrianglePlot2D_Bokeh</code>(<strong><code>pred</code></strong>, <strong><code>targ</code></strong>, <strong><code>labels</code></strong>:<code>list</code>=<em><code>['0', '1', '2']</code></em>, <strong><code>show_bounds</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>show_labels</code></strong>:<code>bool</code>=<em><code>True</code></em>, <strong><code>show_axes</code></strong>:<code>bool</code>=<em><code>True</code></em>, <strong><code>urls</code></strong>:<code>list</code>=<em><code>None</code></em>, <strong><code>comment</code></strong>:<code>str</code>=<em><code>''</code></em>)</p>
+<h4 id="setup_bokeh" class="doc_header"><code>setup_bokeh</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L130" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>setup_bokeh</code>()</p>
+</blockquote>
+<p>bokeh requires we add jquery manually</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="TrianglePlot2D_Bokeh" class="doc_header"><code>class</code> <code>TrianglePlot2D_Bokeh</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L139" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TrianglePlot2D_Bokeh</code>(<strong><code>pred</code></strong>, <strong><code>targ</code></strong>, <strong><code>labels</code></strong>:<code>list</code>=<em><code>['0', '1', '2']</code></em>, <strong><code>show_bounds</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>show_labels</code></strong>:<code>bool</code>=<em><code>True</code></em>, <strong><code>show_axes</code></strong>:<code>bool</code>=<em><code>True</code></em>, <strong><code>urls</code></strong>:<code>list</code>=<em><code>None</code></em>, <strong><code>comment</code></strong>:<code>str</code>=<em><code>''</code></em>)</p>
 </blockquote>
 <p>This gives a 2d plot with image tooltips when the mouse hovers over a data point.</p>
 
@@ -310,10 +359,10 @@ if (outputEl) {{
 
 
 
-<div id="7001a62e-7a2a-4187-ba19-a8c95e364bb5"></div>
+<div id="63e81662-fcea-4976-b799-89d58f27ea77"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#7001a62e-7a2a-4187-ba19-a8c95e364bb5');
+var element = $('#63e81662-fcea-4976-b799-89d58f27ea77');
 
 (function(root) {
   function now() {
@@ -634,10 +683,10 @@ var element = $('#7001a62e-7a2a-4187-ba19-a8c95e364bb5');
 
 
 
-<div id="f201f36f-2514-43d5-9554-1a66eafdba36"></div>
+<div id="4170c744-f3cf-40f9-81c6-56ee52f31d11"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#f201f36f-2514-43d5-9554-1a66eafdba36');
+var element = $('#4170c744-f3cf-40f9-81c6-56ee52f31d11');
 (function(root) {
   function embed_document(root) {
     
@@ -686,7 +735,7 @@ var element = $('#f201f36f-2514-43d5-9554-1a66eafdba36');
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="VizPreds" class="doc_header"><code>class</code> <code>VizPreds</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L190" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>VizPreds</code>(<strong><code>method</code></strong>=<em><code>TrianglePlot2D_Bokeh</code></em>) :: <code>Callback</code></p>
+<h2 id="VizPreds" class="doc_header"><code>class</code> <code>VizPreds</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L216" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>VizPreds</code>(<strong><code>method</code></strong>=<em><code>TrianglePlot2D_Bokeh</code></em>) :: <code>Callback</code></p>
 </blockquote>
 <p>This fastai callback is designed to call the bokeh triangle plot with each batch of training, using validation data.</p>
 
@@ -718,7 +767,7 @@ var element = $('#f201f36f-2514-43d5-9554-1a66eafdba36');
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="image_and_bars" class="doc_header"><code>image_and_bars</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L205" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>image_and_bars</code>(<strong><code>values</code></strong>, <strong><code>labels</code></strong>, <strong><code>image_url</code></strong>, <strong><code>title</code></strong>=<em><code>'Probabilities'</code></em>, <strong><code>height</code></strong>=<em><code>225</code></em>, <strong><code>width</code></strong>=<em><code>500</code></em>)</p>
+<h4 id="image_and_bars" class="doc_header"><code>image_and_bars</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L231" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>image_and_bars</code>(<strong><code>values</code></strong>, <strong><code>labels</code></strong>, <strong><code>image_url</code></strong>, <strong><code>title</code></strong>=<em><code>'Probabilities'</code></em>, <strong><code>height</code></strong>=<em><code>225</code></em>, <strong><code>width</code></strong>=<em><code>500</code></em>)</p>
 </blockquote>
 <p>Plot an image along with a bar graph</p>
 
@@ -971,7 +1020,7 @@ if (outputEl) {{
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="sorted_eig" class="doc_header"><code>sorted_eig</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L239" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>sorted_eig</code>(<strong><code>A</code></strong>)</p>
+<h4 id="sorted_eig" class="doc_header"><code>sorted_eig</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L265" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>sorted_eig</code>(<strong><code>A</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -995,7 +1044,7 @@ if (outputEl) {{
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="pca_proj" class="doc_header"><code>pca_proj</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L245" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>pca_proj</code>(<strong><code>data</code></strong>, <strong><code>dim</code></strong>=<em><code>3</code></em>)</p>
+<h4 id="pca_proj" class="doc_header"><code>pca_proj</code><a href="https://github.com/drscotthawley/mrspuff/tree/master/mrspuff/viz.py#L271" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>pca_proj</code>(<strong><code>data</code></strong>, <strong><code>dim</code></strong>=<em><code>3</code></em>)</p>
 </blockquote>
 <p>Projects data using Principal Component Analysis</p>
 

@@ -25,5 +25,5 @@ from mrspuff.viz import image_and_bars
 ```python
 import mrspuff as msp
 
-p, t = mrspuff.utils.calc_prob()
+p, t = msp.utils.calc_prob()
 ```

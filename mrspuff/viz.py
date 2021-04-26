@@ -29,11 +29,11 @@ class TrianglePlot2D_MPL():
         self.fig = plt.figure(figsize=(5,4))
         self.ax = self.fig.add_subplot(111)
         if show_labels:
-            self.ax.text(-1,0, labels[0], ha='right', va='top', size=12)
-            self.ax.text(1,0, labels[1], size=12, va='top')
-            self.ax.text(0,1, labels[2], va='bottom', ha='center', size=12)
+            self.ax.text(-1,0, labels[0], ha='right', va='top', size=14)
+            self.ax.text(1,0, labels[1], size=14, va='top')
+            self.ax.text(0,1, labels[2], va='bottom', ha='center', size=14)
         if comment != '':
-            self.ax.text(-1.1,1, comment, va='bottom', ha='left', size=12)
+            self.ax.text(-1.1,1, comment, va='bottom', ha='left', size=14)
         if show_bounds: # draw lines for decision boundaries, and 'ideal' points
             self.ax.plot([0,0],[0.333,0], color='black')
             self.ax.plot([0,.5],[0.333,.5], color='black')
@@ -58,6 +58,7 @@ class TrianglePlot2D_MPL():
 
 plotly_already_setup = False
 def setup_plotly():
+    """Plotly is already 'setup' on colab, but on regular Jupyter notebooks we need to do a couple things"""
     global plotly_already_setup
     if plotly_already_setup: return
     if not on_colab():  # Nick Burrus' code for normal-Juptyer use with plotly:
@@ -83,41 +84,41 @@ class TrianglePlot3D_Plotly():
         store_attr()
         setup_plotly()
 
+        if self.targ is None:
+            self.colors, self.dim = self.pred, 3
+        else:
+            self.colors, self.dim = [ ['red','green','blue','orange'][i] for i in self.targ], max(self.targ)+1
+
+        self.fig = go.Figure(data=[go.Scatter3d(x=self.pred[:,0], y=self.pred[:,1], z=self.pred[:,2],
+            mode='markers', marker=dict(size=5, opacity=0.6, color=self.colors))])
 
     def do_plot(self):
 
-        if self.targ is None:
-            colors, dim = self.pred, 3
-        else:
-            colors, dim = [ ['red','green','blue','orange'][i] for i in self.targ], max(self.targ)+1
+        poles = self.pred[0:self.dim,:] if self.poles_included else np.eye(self.dim)
 
-        poles = self.pred[0:dim,:] if self.poles_included else np.eye(dim)
-
-        fig = go.Figure(data=[go.Scatter3d(x=self.pred[:,0], y=self.pred[:,1], z=self.pred[:,2],
-            mode='markers', marker=dict(size=5, opacity=0.6, color=colors))])
         if self.show_labels:
-            fig.update_layout(scene = dict(
+            self.fig.update_layout(scene = dict(
                 xaxis_title=f'{self.labels[0]} - ness', yaxis_title=f'{self.labels[1]} - ness', zaxis_title=f'{self.labels[2]} - ness',
                 # add little arrows pointing to the "poles" or tips
-                annotations = [ dict(text=self.labels[i], xanchor='center', x=poles[i,0], y=poles[i,1], z=poles[i,2]) for i in range(dim)]),
+                annotations = [ dict(text=self.labels[i], xanchor='center', x=poles[i,0], y=poles[i,1], z=poles[i,2]) for i in range(self.dim)]),
                 width=700, margin=dict(r=20, b=10, l=10, t=10), showlegend=False
                 )
 
         if self.show_bounds:
-            fig.add_trace( go.Scatter3d(mode='lines', x=[0.333,0.5], y=[0.333,0.5], z=[0.333,0],
+            self.fig.add_trace( go.Scatter3d(mode='lines', x=[0.333,0.5], y=[0.333,0.5], z=[0.333,0],
                 line=dict(color='black', width=5) ))
-            fig.add_trace( go.Scatter3d(mode='lines', x=[0.333,0], y=[0.333,0.5], z=[0.333,0.5],
+            self.fig.add_trace( go.Scatter3d(mode='lines', x=[0.333,0], y=[0.333,0.5], z=[0.333,0.5],
                 line=dict(color='black', width=5) ))
-            fig.add_trace( go.Scatter3d(mode='lines', x=[0.333,0.5], y=[0.333,0], z=[0.333,0.5],
+            self.fig.add_trace( go.Scatter3d(mode='lines', x=[0.333,0.5], y=[0.333,0], z=[0.333,0.5],
                 line=dict(color='black', width=5) ))
 
         if not self.show_axes:
-            fig.update_layout(scene=dict(
+            self.fig.update_layout(scene=dict(
                 xaxis=dict(showticklabels=False, title=''),
                 yaxis=dict(showticklabels=False, title=''),
                 zaxis=dict(showticklabels=False, title='')))
 
-        return fig.show()
+        return self.fig.show()
 
 # Cell
 
@@ -154,7 +155,7 @@ class TrianglePlot2D_Bokeh():
             comment:str=''              # just a comment to put in the top left corner
             ) -> None:                  # __init__ isn't allowed to return anything (it's a Python thing)
         store_attr()
-        output_notebook()   # output_file("toolbar.html")
+        output_notebook(hide_banner=True)   # output_file("toolbar.html")
         self.colors =  ['red','green','blue']
         self.TOOLTIPS_HTML = """
             <div>

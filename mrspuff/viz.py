@@ -78,6 +78,7 @@ class TrianglePlot3D_Plotly():
         show_labels:bool=True,      # point to class ideal poles with arrows & labels
         show_axes:bool=True,        # show axes or not
         poles_included=False,         # tells whether the "pole" points / triangle tips are already included in the beginning of preds
+        margin_t=0,                 # top margin, plotly's default on Colab is 0, but in jupyter it's 100
         cmap='jet'):
         "plot a 3d triangle plot using plot.ly."
 
@@ -118,6 +119,7 @@ class TrianglePlot3D_Plotly():
                 yaxis=dict(showticklabels=False, title=''),
                 zaxis=dict(showticklabels=False, title='')))
 
+        self.fig.update_layout(margin_t=self.margin_t)
         return self.fig.show()
 
 # Cell

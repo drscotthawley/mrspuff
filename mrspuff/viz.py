@@ -208,7 +208,7 @@ class TrianglePlot2D_Bokeh():
         if self.comment != '':
             self.p.add_layout( Label(x=-1, y=0.95, text=self.comment, text_align='left'))
 
-        return self.p
+        return show(self.p)
 
     def update(self, pred, targ):
         self.pred, self.targ = pred, targ

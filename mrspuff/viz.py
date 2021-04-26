@@ -86,11 +86,12 @@ class TrianglePlot3D_Plotly():
         setup_plotly()
 
         if self.targ is None:
-            self.colors, self.dim = self.pred, 3
+            self.colors, self.dim, self.hlabels = self.pred, 3, None
         else:
             self.colors, self.dim = [ ['red','green','blue','orange'][i] for i in self.targ], max(self.targ)+1
+            self.hlabels = [ labels[i] for i in self.targ] # labels for each point
 
-        self.fig = go.Figure(data=[go.Scatter3d(x=self.pred[:,0], y=self.pred[:,1], z=self.pred[:,2],
+        self.fig = go.Figure(data=[go.Scatter3d(x=self.pred[:,0], y=self.pred[:,1], z=self.pred[:,2], hovertext=self.hlabels,
             mode='markers', marker=dict(size=5, opacity=0.6, color=self.colors))])
 
     def do_plot(self):

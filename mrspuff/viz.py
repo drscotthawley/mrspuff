@@ -57,11 +57,11 @@ class TrianglePlot2D_MPL():
 # Cell
 
 plotly_already_setup = False
-def setup_plotly():
+def setup_plotly(nbdev=True):
     """Plotly is already 'setup' on colab, but on regular Jupyter notebooks we need to do a couple things"""
     global plotly_already_setup
     if plotly_already_setup: return
-    if not on_colab():  # Nick Burrus' code for normal-Juptyer use with plotly:
+    if nbdev and not on_colab():  # Nick Burrus' code for normal-Juptyer use with plotly & nbdev
         import plotly.io as pio
         pio.renderers.default = 'notebook_connected'
         js = '<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>'
@@ -79,6 +79,7 @@ class TrianglePlot3D_Plotly():
         show_axes:bool=True,        # show axes or not
         poles_included=False,         # tells whether the "pole" points / triangle tips are already included in the beginning of preds
         margin_t=0,                 # top margin, plotly's default on Colab is 0, but in jupyter it's 100
+        nbdev=True,                 # whether this is for use with nbdev or not; doesn't save full plots in files
         cmap='jet'):
         "plot a 3d triangle plot using plot.ly."
 

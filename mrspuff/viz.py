@@ -7,6 +7,7 @@ __all__ = ['TrianglePlot2D_MPL', 'setup_bokeh', 'TrianglePlot2D_Bokeh', 'CDH_SAM
 # Cell
 import matplotlib.pyplot as plt
 import numpy as np
+import torch
 from numpy import linalg as LA
 from fastcore.basics import *
 from fastai.callback.core import Callback

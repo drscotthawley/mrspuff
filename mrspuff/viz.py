@@ -278,7 +278,7 @@ class TrianglePlot2D_Bokeh():
                 </div> -->
             </div>
         """
-        assert self.targ is not None, 'TODO: right now we require targ'
+        #assert self.targ is not None, 'TODO: right now we require targ'
         setup_bokeh()
         self.clear()
         return

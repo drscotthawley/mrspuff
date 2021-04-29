@@ -251,7 +251,7 @@ class TrianglePlot2D_Bokeh():
             pred=None,                  # (n,3): probability values of n data points in each of 3 classes
             targ=None,                  # (n):   target value (0,1,2) for each data point
             labels:list=['0','1','2'],  # the class labels
-            show_bounds:bool=False,     # show inter-class boundaries or not
+            show_bounds:bool=True,     # show inter-class boundaries or not
             show_labels:bool=True,      # point to class ideal poles with arrows & labels
             show_axes:bool=True,        # show axes or not
             urls:list=None,              # image urls to display upon mouseover (default: stock images)

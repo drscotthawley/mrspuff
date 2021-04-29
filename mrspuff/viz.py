@@ -278,7 +278,6 @@ class TrianglePlot2D_Bokeh():
                 </div> -->
             </div>
         """
-        #assert self.targ is not None, 'TODO: right now we require targ'
         setup_bokeh()
         self.clear()
         return
@@ -290,7 +289,8 @@ class TrianglePlot2D_Bokeh():
         self.pred = self.pred if pred is None else pred
         self.targ = self.targ if targ is None else targ
         self.urls = self.urls if urls is None else urls
-        assert self.pred is not None
+        assert self.pred is not None, 'Nothing to plot'
+        assert self.targ is not None, 'TODO: right now we require targ'
 
         xs, ys = self.pred.T[1] - self.pred.T[0], self.pred.T[2]
 
@@ -323,18 +323,19 @@ class TrianglePlot2D_Bokeh():
 
 # Cell
 class VizPreds(Callback):
-    "This fastai callback is designed to call the bokeh triangle plot with each batch of training, using validation data."
+    "Progress-like callback: call the bokeh triangle plot with each batch of training"
     order = ProgressCallback.order+1
     def __init__(self,
         method=TrianglePlot2D_Bokeh   # callback to plotting method; must have ".do_plot(preds,targs)"
     ): self.method = method
-    def before_fit(self, **kwargs): self.plot = self.method(labels=self.dls.vocab)
+    def before_fit(self, **kwargs): self.plot = self.method(labels=self.dls.vocab, show_bounds=True)
     def after_batch(self, **kwargs):
         if not self.learn.training:
             with torch.no_grad():
-                preds, targs = F.softmax(self.learn.pred, dim=1), self.learn.y
-                preds, targs = [x.detach().cpu().numpy().copy() for x in [preds,targs]]
-                self.plot.do_plot(preds, targs)
+                fnames = [str(f) for f in self.learn.dls.valid.items]
+                preds, targs = F.softmax(self.learn.pred, dim=1), self.learn.y # preds are logits
+                preds, targs = [x.detach().cpu().numpy().copy() for x in [preds,targs]] # make plot-able
+                self.plot.do_plot(preds, targs, urls=fnames) # TODO: urls=fnames works for local run, not on colab yet
 
 # Cell
 def image_and_bars(values, labels, image_url, title="Probabilities", height=225, width=500):

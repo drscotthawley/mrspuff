@@ -326,16 +326,16 @@ class VizPreds(Callback):
     "Progress-like callback: call the bokeh triangle plot with each batch of training"
     order = ProgressCallback.order+1
     def __init__(self,
-        method=TrianglePlot2D_Bokeh   # callback to plotting method; must have ".do_plot(preds,targs)"
+        method=TrianglePlot2D_Bokeh   # plotting method must have a .do_plot(preds,targs)
     ): self.method = method
-    def before_fit(self, **kwargs): self.plot = self.method(labels=self.dls.vocab, show_bounds=True)
     def after_batch(self, **kwargs):
         if not self.learn.training:
             with torch.no_grad():
+                preds, targs = F.softmax(self.learn.pred, dim=1), self.learn.y # pred is logits
+                preds, targs = [x.detach().cpu().numpy().copy() for x in [preds,targs]]
                 fnames = [str(f) for f in self.learn.dls.valid.items]
-                preds, targs = F.softmax(self.learn.pred, dim=1), self.learn.y # preds are logits
-                preds, targs = [x.detach().cpu().numpy().copy() for x in [preds,targs]] # make plot-able
-                self.plot.do_plot(preds, targs, urls=fnames) # TODO: urls=fnames works for local run, not on colab yet
+                urls = fnames # TODO for colab will need to do a bit more work here
+                self.method(preds, targs, urls=urls, labels=self.dls.vocab, show_bounds=True).do_plot()
 
 # Cell
 def image_and_bars(values, labels, image_url, title="Probabilities", height=225, width=500):

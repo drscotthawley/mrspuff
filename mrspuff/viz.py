@@ -286,10 +286,10 @@ class TrianglePlot2D_Bokeh():
     def clear(self):
         self.p = figure(plot_width=400, plot_height=350, tooltips=self.TOOLTIPS_HTML, title="Mouse over the dots")
 
-    def do_plot(self, pred=None, targ=None):
+    def do_plot(self, pred=None, targ=None, urls=None):
         self.pred = self.pred if pred is None else pred
         self.targ = self.targ if targ is None else targ
-
+        self.urls = self.urls if urls is None else urls
         assert self.pred is not None
 
         xs, ys = self.pred.T[1] - self.pred.T[0], self.pred.T[2]

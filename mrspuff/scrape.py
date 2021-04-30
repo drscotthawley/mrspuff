@@ -123,6 +123,11 @@ def browse_images(dataset):
         interact(view_image, i=(0,n-1))
 
 # Cell
+try:
+    from google.colab import drive
+    IN_COLAB = True
+except:
+    IN_COLAB = False
 
 def get_thumb_urls(
     image_paths=None,                 # files we want; "None" = all in images_dir
@@ -133,12 +138,6 @@ def get_thumb_urls(
     """
     This will save thumbnails of images and provide 'hosted' urls to them if on Colab
     """
-
-    try:
-        from google.colab import drive
-        IN_COLAB = True
-    except:
-        IN_COLAB = False
 
     thumbs_copy_dir = images_dir + "_thumbs"
     if IN_COLAB:

@@ -148,7 +148,7 @@ class TrianglePlot3D_Plotly():
             self.fig.add_trace( go.Scatter3d(mode='lines', x=[0.333,0.5], y=[0.333,0], z=[0.333,0.5],
                 line=dict(color='black', width=5) ))
 
-        if not self.show_axes:
+        if (not self.show_axes) or (self.dim != self.odim):  # turn off the axis names
             self.fig.update_layout(scene=dict(
                 xaxis=dict(showticklabels=False, title=''),
                 yaxis=dict(showticklabels=False, title=''),
@@ -280,17 +280,27 @@ class VizPreds(Callback):
             self.we_made_the_thumbs = True
             self.learn.dls.valid.url_dict = dict(zip(dv.items, get_thumb_urls(dv.items, size=(self.thumb_height,self.thumb_height))))
 
-    def after_batch(self, **kwargs): #used to be after_batch but now I'm trying after_epoch
+    def before_epoch(self):
+        if not self.learn.training:
+            self.learn.viz_preds, self.learn.viz_targs = None, None
+
+    def after_batch(self, **kwargs):
         if not self.learn.training:
             with torch.no_grad():
                 preds, targs = F.softmax(self.learn.pred, dim=1), self.learn.y # pred is logits
                 preds, targs = [x.detach().cpu().numpy().copy() for x in [preds,targs]]
-                if self.method==TrianglePlot2D_Bokeh:
-                    dv = self.learn.dls.valid
-                    urls = [dv.url_dict[f] for f in dv.items] if 'url_dict' in dir(dv) else dv.items
-                else:
-                    urls = None
-                self.method(preds, targs, urls=urls, labels=self.dls.vocab, comment=f'Epoch {self.learn.epoch}', thumb_height=self.thumb_height).do_plot()
+                self.learn.viz_preds = preds if self.learn.viz_preds is None else np.vstack((self.learn.viz_preds, preds))
+                self.learn.viz_targs = targs if self.learn.viz_targs is None else np.hstack((self.learn.viz_targs, targs))
+
+    def after_epoch(self):
+        if not self.learn.training:
+            print(f"Epoch {self.learn.epoch}: Plotting {len(self.learn.viz_targs)} (= {len(self.learn.dls.valid.items)}?) points:")
+            urls = None
+            if self.method==TrianglePlot2D_Bokeh:
+                dv = self.learn.dls.valid       # just a shorthand
+                urls = [dv.url_dict[f] for f in dv.items] if 'url_dict' in dir(dv) else dv.items
+            self.method(self.learn.viz_preds, self.learn.viz_targs, urls=urls, labels=self.dls.vocab,
+                comment=f'Epoch {self.learn.epoch}', thumb_height=self.thumb_height).do_plot()
 
 # Cell
 def image_and_bars(values, labels, image_url, title="Probabilities", height=225, width=500):

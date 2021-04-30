@@ -13,8 +13,8 @@ from numpy import linalg as LA
 from fastcore.basics import *
 from fastai.callback.core import Callback
 from fastai.callback.progress import ProgressCallback
-from .utils import calc_prob, on_colab
-from .scrape import exhibit_urls
+from .utils import *
+from .scrape import *
 import plotly.graph_objects as go
 from bokeh.plotting import figure, ColumnDataSource, output_file, show
 from bokeh.io import output_notebook

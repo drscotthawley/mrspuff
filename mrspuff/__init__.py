@@ -1,4 +1,4 @@
-__version__ = "0.0.20a"
+__version__ = "0.0.21"
 
 from . import viz
 from . import scrape

@@ -154,6 +154,7 @@ def get_thumb_urls(
     # create the thumbnails and save them to Drive
     thumb_paths = []
     for fname in image_paths:
+        fname = Path(fname) # just as a precaution
         tname = Path(thumbs_copy_dir) / fname.parent.name / fname.name
         tname.parent.mkdir(parents=True, exist_ok=True)  # create the parent directories before writing files
         with Image.open(fname) as im:

@@ -280,13 +280,11 @@ class VizPreds(Callback):
             self.we_made_the_thumbs = True
             self.learn.dls.valid.url_dict = dict(zip(dv.items, get_thumb_urls(dv.items, size=(self.thumb_height,self.thumb_height))))
 
-
     def after_batch(self, **kwargs): #used to be after_batch but now I'm trying after_epoch
         if not self.learn.training:
             with torch.no_grad():
                 preds, targs = F.softmax(self.learn.pred, dim=1), self.learn.y # pred is logits
                 preds, targs = [x.detach().cpu().numpy().copy() for x in [preds,targs]]
-                #urls = [dls.valid.url_dict[f] for f in dls.valid.items] if 'url_dict' in dir(dls.valid) else dls.valid.items
                 if self.method==TrianglePlot2D_Bokeh:
                     dv = self.learn.dls.valid
                     urls = [dv.url_dict[f] for f in dv.items] if 'url_dict' in dir(dv) else dv.items

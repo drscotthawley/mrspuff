@@ -123,6 +123,7 @@ def browse_images(dataset):
         interact(view_image, i=(0,n-1))
 
 # Cell
+
 try:
     from google.colab import drive
     IN_COLAB = True
@@ -132,7 +133,7 @@ except:
 def get_thumb_urls(
     image_paths=None,                 # files we want; "None" = all in images_dir
     images_dir:str="scraped_images",  # directory of full size images, no / on end
-    size:tuple=(75,75),             # max dims of thumbnail; see PIL Image.thumbnail()
+    size:tuple=(100,100),             # max dims of thumbnail; see PIL Image.thumbnail()
     verbose:bool=False                # whether to print status messages or not
     ) -> list:
     """

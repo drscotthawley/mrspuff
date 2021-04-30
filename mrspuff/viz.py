@@ -185,12 +185,12 @@ class TrianglePlot2D_Bokeh():
             pred=None,                  # (n,3): probability values of n data points in each of 3 classes
             targ=None,                  # (n):   target value (0,1,2) for each data point
             labels:list=['0','1','2'],  # the class labels
-            show_bounds:bool=True,     # show inter-class boundaries or not
+            show_bounds:bool=True,      # show inter-class boundaries or not
             show_labels:bool=True,      # point to class ideal poles with arrows & labels
             show_axes:bool=True,        # show axes or not
-            urls:list=None,              # image urls to display upon mouseover (default: stock images)
-            comment:str='',              # just a comment to put in the top left corner
-            thumb_height:int=75,             # height of thumbnail images (aspect ratio is preserved)
+            urls:list=None,             # image urls to display upon mouseover (default: stock images)
+            comment:str='',             # just a comment to put in the top left corner
+            thumb_height:int=100,       # height of thumbnail images (aspect ratio is preserved)
             ) -> None:                  # __init__ isn't allowed to return anything (it's a Python thing)
         store_attr()
         output_notebook(hide_banner=True)   # output_file("toolbar.html")
@@ -264,7 +264,9 @@ class VizPreds(Callback):
     order = ProgressCallback.order+1
     def __init__(self,
         method='auto',   # plotting method must have a .do_plot(preds,targs)
-        gen_urls=True,   # if we should generate thumbnail urls (if they don't exist) for 2D Bokeh
+        gen_urls=True,   # if we should generate thumbnail urls (if they don't exist) (2D_Bokeh only)
+        force_new_urls=False, # if False, keeps whatever thumbnail urls are in learn.dls
+        thumb_height=100, # lets you vary the height of image thumbnails (2D_Bokeh only)
     ):
         store_attr()
 
@@ -273,8 +275,8 @@ class VizPreds(Callback):
             self.method = TrianglePlot2D_Bokeh if len(self.learn.dls.vocab) <= 3 else TrianglePlot3D_Plotly
 
         dv = self.learn.dls.valid       # just a shorthand
-        if self.gen_urls and self.method==TrianglePlot2D_Bokeh and 'url_dict' not in dir(dv):
-            self.learn.dls.valid.url_dict = dict(zip(dv.items, get_thumb_urls(dv.items)))
+        if self.gen_urls and self.method==TrianglePlot2D_Bokeh and (('url_dict' not in dir(dv)) or self.force_new_urls):
+            self.learn.dls.valid.url_dict = dict(zip(dv.items, get_thumb_urls(dv.items, size=(self.thumb_height,self.thumb_height))))
 
     def after_batch(self, **kwargs): #used to be after_batch but now I'm trying after_epoch
         if not self.learn.training:
@@ -287,7 +289,7 @@ class VizPreds(Callback):
                     urls = [dv.url_dict[f] for f in dv.items] if 'url_dict' in dir(dv) else dv.items
                 else:
                     urls = None
-                self.method(preds, targs, urls=urls, labels=self.dls.vocab, comment=f'Epoch {self.learn.epoch}').do_plot()
+                self.method(preds, targs, urls=urls, labels=self.dls.vocab, comment=f'Epoch {self.learn.epoch}', thumb_height=self.thumb_height).do_plot()
 
 # Cell
 def image_and_bars(values, labels, image_url, title="Probabilities", height=225, width=500):

@@ -20,7 +20,7 @@ import time
 from IPython.display import HTML
 import matplotlib.pyplot as plt
 from ipywidgets import interact
-from .utils import calc_prob
+from .utils import calc_prob, on_colab
 import pandas as pd
 
 # Cell
@@ -124,54 +124,65 @@ def browse_images(dataset):
 
 # Cell
 
-try:
-  from google.colab import drive
-  IN_COLAB = True
-except:
-  IN_COLAB = False
-
-
 def get_thumb_urls(
+    image_paths=None,                 # files we want; "None" = all in images_dir
     images_dir:str="scraped_images",  # directory of full size images, no / on end
-    size:tuple=(150,150),             # max dims of thumbnail; see PIL Image.thumbnail()
+    size:tuple=(224,224),             # max dims of thumbnail; see PIL Image.thumbnail()
     verbose:bool=False                # whether to print status messages or not
     ) -> list:
     """
-    (Colab only) This will save thumbnails of images and provide 'hosted' urls to them
+    This will save thumbnails of images and provide 'hosted' urls to them if on Colab
     """
 
-    if not IN_COLAB:
-        print("Sorry, this only works on Colab")
-        return None
+    try:
+        from google.colab import drive
+        IN_COLAB = True
+    except:
+        IN_COLAB = False
 
-    drive.mount('/gdrive')
-    thumbs_copy_dir = '/gdrive/My Drive/'+ images_dir + "_thumbs"
+    thumbs_copy_dir = images_dir + "_thumbs"
+    if IN_COLAB:
+        print("Generating (URLS of) thumbnail images...")
+        drive.mount('/gdrive')
+        thumbs_copy_dir = '/gdrive/My Drive/'+ thumbs_copy_dir
     shutil.rmtree(thumbs_copy_dir, ignore_errors=True)      # clear out thumbs dir
 
     # get all the image filenames with full paths
-    image_paths = [path for path in Path(images_dir).resolve().rglob('*') if path.suffix.lower() in ['.jpg', '.png']]
+    if image_paths is None:
+        image_paths = [path for path in Path(images_dir).resolve().rglob('*') if path.suffix.lower() in ['.jpg', '.png']]
 
     # create the thumbnails and save them to Drive
     thumb_paths = []
-    for f in image_paths:
-        t = Path(thumbs_copy_dir) / f.parent.name / f.name
-        thumb_paths.append(t)
-        t.parent.mkdir(parents=True, exist_ok=True)  # create the parent directories before writing files
-        with Image.open(f) as im:
+    for fname in image_paths:
+        tname = Path(thumbs_copy_dir) / fname.parent.name / fname.name
+        tname.parent.mkdir(parents=True, exist_ok=True)  # create the parent directories before writing files
+        with Image.open(fname) as im:
             im.thumbnail(size)
-            im.save(t)
-    print(f"Thumbnails saved to Google Drive in {thumbs_copy_dir}\nWaiting til URLs are ready.")
+            if verbose: print(f"Attempting to save {tname}")
+            try:
+                im.save(tname)
+            except OSError:  # sometimes getting jpg save errors, try those as png
+                tname = Path(str(tname) +'.png')
+                im.save(tname)
+        thumb_paths.append(tname)
+
+    if not IN_COLAB: return thumb_paths
+
+    print(f"Thumbnails saved to Google Drive in {thumbs_copy_dir}/\nWaiting on Google Drive until URLs are ready.\n")
 
     # get thumbnail URLs from Drive (might have to wait a bit for them)
     urls = []
     for tp in thumb_paths:
-        count, fid = 0, "local-225"  # need a loop in case Drive needs time to generate FileID
-        while ('local-' in fid) and (count < 100):
+        count, timeout, fid = 0, 60, "local-225"  # need a loop in case Drive needs time to generate FileID
+        while ('local-' in fid) and (count < timeout):
             fid, count = subprocess.getoutput(f"xattr -p 'user.drive.id' '{tp}' "), count+1
-            if 'local-' in fid: time.sleep(1)
-        url = f'https://drive.google.com/uc?id={fid}'
-        urls.append(url)
-        if verbose: print(f"url = {url}")
+            if 'local-' in fid: time.sleep(1)      # url still isn't ready; wait a second
+        if 'local-' in fid:
+            print(f"Error, unable to generate URL for {fid}")
+        else:
+            urls.append(f'https://drive.google.com/uc?id={fid}')
+            if verbose: print(f"url = {urls[-1]}")
+
     return urls
 
 # Cell

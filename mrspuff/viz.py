@@ -219,7 +219,7 @@ class TrianglePlot2D_Bokeh():
 
     def clear(self):
         self.p = figure(plot_width=400, plot_height=350, tooltips=self.TOOLTIPS_HTML,
-            title="Mouse over the dots", tools="pan,wheel_zoom,hover")
+            title="Mouse over the dots")
         self.p.toolbar.active_scroll = self.p.select_one(WheelZoomTool)
 
     def do_plot(self, pred=None, targ=None, urls=None):

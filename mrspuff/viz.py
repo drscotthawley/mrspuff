@@ -265,18 +265,21 @@ class VizPreds(Callback):
     def __init__(self,
         method='auto',   # plotting method must have a .do_plot(preds,targs)
         gen_urls=True,   # if we should generate thumbnail urls (if they don't exist) (2D_Bokeh only)
+        thumb_height=80, # lets you vary the height of image thumbnails (2D_Bokeh only)
         force_new_urls=False, # if False, keeps whatever thumbnail urls are in learn.dls
-        thumb_height=100, # lets you vary the height of image thumbnails (2D_Bokeh only)
     ):
         store_attr()
+        self.we_made_the_thumbs = False  # so that we don't force-gen new urls a 2nd time after un-freezing
 
     def before_fit(self):
         if self.method=='auto':
             self.method = TrianglePlot2D_Bokeh if len(self.learn.dls.vocab) <= 3 else TrianglePlot3D_Plotly
 
         dv = self.learn.dls.valid       # just a shorthand
-        if self.gen_urls and self.method==TrianglePlot2D_Bokeh and (('url_dict' not in dir(dv)) or self.force_new_urls):
+        if self.gen_urls and self.method==TrianglePlot2D_Bokeh and (('url_dict' not in dir(dv)) or self.force_new_urls) and not self.we_made_the_thumbs:
+            self.we_made_the_thumbs = True
             self.learn.dls.valid.url_dict = dict(zip(dv.items, get_thumb_urls(dv.items, size=(self.thumb_height,self.thumb_height))))
+
 
     def after_batch(self, **kwargs): #used to be after_batch but now I'm trying after_epoch
         if not self.learn.training:

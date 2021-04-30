@@ -132,7 +132,7 @@ except:
 def get_thumb_urls(
     image_paths=None,                 # files we want; "None" = all in images_dir
     images_dir:str="scraped_images",  # directory of full size images, no / on end
-    size:tuple=(224,224),             # max dims of thumbnail; see PIL Image.thumbnail()
+    size:tuple=(75,75),             # max dims of thumbnail; see PIL Image.thumbnail()
     verbose:bool=False                # whether to print status messages or not
     ) -> list:
     """
@@ -166,7 +166,7 @@ def get_thumb_urls(
                 im.save(tname)
         thumb_paths.append(tname)
 
-    if not IN_COLAB: return thumb_paths
+    if not IN_COLAB: return [str(t) for t in thumb_paths]  # For local runs, need to un-Path in order to serialize JSON
 
     print(f"Thumbnails saved to Google Drive in {thumbs_copy_dir}/\nWaiting on Google Drive until URLs are ready.\n")
 

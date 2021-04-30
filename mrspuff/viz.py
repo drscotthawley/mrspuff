@@ -264,20 +264,27 @@ class VizPreds(Callback):
     order = ProgressCallback.order+1
     def __init__(self,
         method='auto',   # plotting method must have a .do_plot(preds,targs)
-        gen_urls=True,                 # if we should generate thumbnail urls (if they don't exist)
+        gen_urls=True,   # if we should generate thumbnail urls (if they don't exist) for 2D Bokeh
     ):
-        if self.method=='auto':
-            self.method = TrianglePlot2D_Bokeh if len(self.dls.vocab) <= 3 else TrianglePlot3D_Plotly
-        if gen_urls and self.method==TrianglePlot2D_Bokeh and ('url_dict' not in dir(dls.valid)):
-            dls.valid.url_dict = dict(zip(dls.valid.items, get_thumb_urls(dls.valid.items))) # generate thumbnail image urls
+        store_attr()
 
-    def after_batch(self, **kwargs):
+    def before_fit(self):
+        if self.method=='auto':
+            self.method = TrianglePlot2D_Bokeh if len(self.learn.dls.vocab) <= 3 else TrianglePlot3D_Plotly
+
+        dv = self.learn.dls.valid       # just a shorthand
+        if self.gen_urls and self.method==TrianglePlot2D_Bokeh and 'url_dict' not in dir(dv):
+            self.learn.dls.valid.url_dict = dict(zip(dv.items, get_thumb_urls(dv.items)))
+
+    def after_batch(self, **kwargs): #used to be after_batch but now I'm trying after_epoch
         if not self.learn.training:
             with torch.no_grad():
                 preds, targs = F.softmax(self.learn.pred, dim=1), self.learn.y # pred is logits
                 preds, targs = [x.detach().cpu().numpy().copy() for x in [preds,targs]]
+                #urls = [dls.valid.url_dict[f] for f in dls.valid.items] if 'url_dict' in dir(dls.valid) else dls.valid.items
                 if self.method==TrianglePlot2D_Bokeh:
-                    urls = [dls.valid.url_dict[f] for f in dls.valid.items] if 'url_dict' in dir(dls.valid) else dls.valid.items
+                    dv = self.learn.dls.valid
+                    urls = [dv.url_dict[f] for f in dv.items] if 'url_dict' in dir(dv) else dv.items
                 else:
                     urls = None
                 self.method(preds, targs, urls=urls, labels=self.dls.vocab, comment=f'Epoch {self.learn.epoch}').do_plot()

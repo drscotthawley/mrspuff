@@ -19,6 +19,8 @@ docs: $(SRC)
 	touch docs
 
 git_update: mrspuff docs
+	nbdev_build_lib 
+	nbdev_build_docs
 	git add *.ipynb settings.ini README.md mrspuff docs
 	git commit
 	git push

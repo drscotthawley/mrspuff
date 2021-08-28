@@ -2,7 +2,12 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"search_images_ddg": "scrape.ipynb",
+index = {"set_css_in_cell_output": "quiz.ipynb",
+         "detect_theme": "quiz.ipynb",
+         "cypher": "quiz.ipynb",
+         "decypher": "quiz.ipynb",
+         "mc_widget": "quiz.ipynb",
+         "search_images_ddg": "scrape.ipynb",
          "download_and_save": "scrape.ipynb",
          "search_and_download": "scrape.ipynb",
          "img_scrape": "scrape.ipynb",
@@ -26,7 +31,8 @@ index = {"search_images_ddg": "scrape.ipynb",
          "VizPreds": "viz.ipynb",
          "image_and_bars": "viz.ipynb"}
 
-modules = ["scrape.py",
+modules = ["quiz.py",
+           "scrape.py",
            "utils.py",
            "viz.py"]
 

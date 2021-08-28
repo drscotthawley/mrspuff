@@ -1,6 +1,7 @@
 {
   "mrspuff": {
     "Overview": "/",
+    "quiz": "quiz.html",
     "scrape": "scrape.html",
     "utils": "utils.html",
     "viz": "viz.html"

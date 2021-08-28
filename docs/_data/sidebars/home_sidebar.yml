@@ -10,6 +10,9 @@ entries:
       title: Overview
       url: /
     - output: web,pdf
+      title: quiz
+      url: quiz.html
+    - output: web,pdf
       title: scrape
       url: scrape.html
     - output: web,pdf

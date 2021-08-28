@@ -67,7 +67,8 @@ def mc_widget(description,       # text to be displayed first, e.g. the question
     alternativ = widgets.RadioButtons(
         options = radio_options,
         description = '',
-        disabled = False
+        disabled = False,
+        layout={'width': 'max-content'}
     )
 
 

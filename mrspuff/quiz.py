@@ -6,6 +6,7 @@ __all__ = ['set_css_in_cell_output', 'detect_theme', 'cypher', 'decypher', 'mc_w
 import ipywidgets as widgets
 from IPython.display import HTML, display, clear_output
 import base64
+import random
 
 # Cell
 
@@ -29,7 +30,9 @@ detect_theme()  # go ahead and execute detect_theme
 
 # Cell
 
-def cypher(text, decode=False, key='key'):
+def cypher(text, decode=False,
+           key='key'    # default key is just the string 'key'!
+           ):
     '''Vigenère cipher: Not secure, just a way to not display plaintext'''
     # SHH modded from https://stackoverflow.com/a/38223403/4259243
 
@@ -49,9 +52,11 @@ def decypher(text, key='key'):
 # Cell
 
 def mc_widget(description,       # text to be displayed first, e.g. the question to be asked
-              options,           # the choices
+              options,           # list of choices
               correct_answer,
-              decrypt_correct=False):
+              decrypt_correct=False,
+              random_order=False
+              ):
     '''Multiple Choice question widget
     From zxzhaixiang's answer https://github.com/jupyter-widgets/ipywidgets/issues/2487#issuecomment-510721436
     Decrypt answer added by SHH
@@ -60,6 +65,8 @@ def mc_widget(description,       # text to be displayed first, e.g. the question
 
     if correct_answer not in options:
         options.append(correct_answer)
+
+    if random_order: random.shuffle(options)
 
     correct_answer_index = options.index(correct_answer)
 

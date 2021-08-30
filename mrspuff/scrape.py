@@ -214,7 +214,7 @@ def scrape_for_me(dl_path, labels, search_suffix, erase_dir=True, max_n=100):
         urls = [ x for x in urls if ("magpies" not in x) and ("charliebears" not in x) ]   # kludge for now to keep download_images from hanging
         print(f"{search_term}: Got {len(urls)} image URLs. Downloading...")
         print("   urls = ",urls)
-        download_images(dest, urls=urls, preserve_filename=False)
+        download_images(dest, urls=urls, preserve_filename=True)
         print("    Images downloaded.")
 
     fns = get_image_files(path)     # list image filenames

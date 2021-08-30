@@ -203,7 +203,7 @@ def exhibit_urls(targ, labels=['cat','dog','horse']):
 # actually here's a newer interface that I prefer
 def scrape_for_me(dl_path, labels, search_suffix, erase_dir=True, max_n=100):
     if erase_dir:
-        shutil.rmtree(dl_path)
+        shutil.rmtree(dl_path, ignore_errors=True)
     path = Path(dl_path)
     if not path.exists(): path.mkdir()
     for o in labels:            # scrape images off the web

@@ -23,6 +23,8 @@ import matplotlib.pyplot as plt
 from ipywidgets import interact
 from .utils import calc_prob, on_colab
 import pandas as pd
+import random
+import string
 
 # Cell
 
@@ -217,6 +219,7 @@ def scrape_for_me(dl_path, labels, search_suffix, erase_dir=True, max_n=100):
         download_images(dest, urls=urls, preserve_filename=True)
         print("    Images downloaded.")
 
+    print("Doing some more setting up & checking on the downloaded files...")
     fns = get_image_files(path)     # list image filenames
     failed = verify_images(fns)     # check if any are unloadable
 
@@ -225,7 +228,18 @@ def scrape_for_me(dl_path, labels, search_suffix, erase_dir=True, max_n=100):
     if failed != []:
         _ = [fns.remove(f) for f in failed]
 
+    #Extra: append a random string before suffix to avoid filename collisions if we change categories later
+    fns = get_image_files(path)
+    print("Fns = ",fns)
+    for i, f in enumerate(fns):
+        f_no_ext, ext = os.path.splitext(f)[0], f.suffix
+        rnd_str = '_'+''.join(random.choice(string.ascii_letters) for i in range(10))
+        final = f_no_ext + rnd_str +ext
+        shutil.move(f, final)
+        fns[i] = Path(final)  # rewrite the filename list entry
+
     # Extra: To avoid Transparency warnings, convert PNG images to RGBA, from https://forums.fast.ai/t/errors-when-training-the-bear-image-classification-model/83422/9
+    #fns = get_image_files(path)
     converted = L()
     for image in fns:
         if '.png' in str(image):

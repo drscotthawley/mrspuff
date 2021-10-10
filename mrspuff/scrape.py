@@ -254,9 +254,12 @@ def scrape_for_me(dl_path, labels, search_suffix, erase_dir=True, max_n=100):
     return path     # and return a pathlib object pointing to image dir
 
 # Cell
-def download(url, fname):
+def download(url, fname, skip_if_exists=True):
     "downloads a file from URL to local file fname"
     # attribution: cf. https://stackoverflow.com/a/63831344/4259243
+    if skip_if_exists and os.path.exists(fname):
+        print(f"File {fname} already exists. Returning.")
+        return
     resp = requests.get(url, stream=True)
     total = int(resp.headers.get('content-length', 0))
     with open(fname, 'wb') as file, tqdm(

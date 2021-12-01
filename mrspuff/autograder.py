@@ -59,7 +59,7 @@ SECURITY NOTE:
 """
 
 ## GLOBAL VARIABLES, which may be overwritten below by command-line args
-sender_gmail = ""   # ***FILL THIS IN***  Where results will be emailed from.
+sender_gmail = "FILL_ME_IN@gmail.com"   # ***FILL THIS IN***  Where results will be emailed from.
 assign_num = 4      # changed via command line arg
 assignment_dir = f"assignment_{assign_num}/"  # where notebooks gets downloaded to and were imports.py and tests.py live
 ss_file = 'responses.csv'     # downloaded Google sheet is assigned to this local filename
@@ -281,7 +281,7 @@ def update_and_run_nb(row, dst_dir=assignment_dir, force_execute=False):
     if not os.path.exists(dst_dir): os.mkdir(dst_dir)
     url, student_id, name, email = row['colab_url'],   row['student_id'].title(),  row['name'].title(), row['email'].lower()
     [url, student_id, name]  = [clean_user_str(x) for x in [url, student_id, name]]  # email isn't used in shell cmds
-    for already in []:#'Caroline','Jacob','Scott']:
+    for already in []:   # you can add names to skip over, can be useful for debugging, otherwise ignore this
         if already in name:
             print(f"name = {name}. Already did this one ({already}). Returning.")
             return

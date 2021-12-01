@@ -288,6 +288,7 @@ def update_and_run_nb(row, dst_dir=assignment_dir, force_execute=False):
     if 'usp=sharing' not in url:
         send_email(email, f"Error: Invalid sharing URL = {url}.\n You did not supply a 'sharing url' as instructed. Please edit your resonse to the web form.",
             subject=f'Autograder error: Invalid Colab URL')
+        return
     dst_file = f"{dst_dir}/{student_id}_{name.replace(' ','_')}.ipynb"
     dst_file = clean_user_str(dst_file)   # just being extra careful / paranoid
     updated = download_if_newer_gdrive( url, dst_file, colab=True)

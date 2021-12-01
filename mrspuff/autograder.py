@@ -118,7 +118,7 @@ def gdrive_file_date(url):
     gd_file.FetchMetadata(fields='modifiedDate')
     return parsedate(gd_file['modifiedDate']).astimezone()
 
-def wait_til_file_ready(dst_file, sleep=1, timeout=60):
+def wait_til_file_ready(dst_file, sleep=1, timeout=20):
     "Literally just retries every sleep seconds, or times out after timeout seconds"
     start = time.time()
     while not os.path.exists(dst_file):
@@ -281,15 +281,18 @@ def update_and_run_nb(row, dst_dir=assignment_dir, force_execute=False):
     if not os.path.exists(dst_dir): os.mkdir(dst_dir)
     url, student_id, name, email = row['colab_url'],   row['student_id'].title(),  row['name'].title(), row['email'].lower()
     [url, student_id, name]  = [clean_user_str(x) for x in [url, student_id, name]]  # email isn't used in shell cmds
-    for already in []:   # you can add names to skip over, can be useful for debugging, otherwise ignore this
+    for already in []: # can be used to skip over certain students' work, when testing/debugging
         if already in name:
             print(f"name = {name}. Already did this one ({already}). Returning.")
             return
+    if 'usp=sharing' not in url:
+        send_email(email, f"Error: Invalid sharing URL = {url}.\n You did not supply a 'sharing url' as instructed. Please edit your resonse to the web form.",
+            subject=f'Autograder error: Invalid Colab URL')
     dst_file = f"{dst_dir}/{student_id}_{name.replace(' ','_')}.ipynb"
     dst_file = clean_user_str(dst_file)   # just being extra careful / paranoid
     updated = download_if_newer_gdrive( url, dst_file, colab=True)
     if updated or force_execute:
-        file_ready = wait_til_file_ready(dst_file, timeout=60)
+        file_ready = wait_til_file_ready(dst_file)
         if file_ready:
             print("   ....")
             run_log = run_nb(dst_file)
@@ -297,8 +300,8 @@ def update_and_run_nb(row, dst_dir=assignment_dir, force_execute=False):
             #print("run_log = \n",run_log)
             send_email('scott.hawley@belmont.edu', run_log, subject=f'Autograder results for {name}')
         else:
-            send_email(email, f"Error: Timeout. Unable to download notebook {url}.\nDid you remember to supply the sharing URL and enable 'anyone can view'?",
-                subject=f'Autograder results: TIMEOUT ERROR')
+            send_email(email, f"Error: Timeout. Unable to download notebook {url}.\nDid you remember to enable sharing with 'Anyone can View'?",
+                subject=f'Autograder error: TIMEOUT')
 
 
 ### MAIN EXECUTION ####

@@ -29,7 +29,7 @@ For email you need to allow "Less Secure Apps" on Gmail or use some other SMTP-b
 Setting up a Google Drive App is nontrivial BTW. Good luck ;-)
 
 First authenticate with Google by running:
-    python quickstart.py
+    python pydrive2_auth.py
 
 After that...
 

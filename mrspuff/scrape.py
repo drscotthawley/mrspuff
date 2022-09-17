@@ -28,6 +28,7 @@ import string
 import functools
 import pathlib
 from tqdm.auto import tqdm
+from duckduckgo_search import ddg_images
 
 # Cell
 
@@ -215,12 +216,14 @@ def scrape_for_me(dl_path, labels, search_suffix, erase_dir=True, max_n=100):
         search_term = (f'{o} {search_suffix}').strip()
         dest = (path/o)
         dest.mkdir(exist_ok=True)
-        urls = search_images_ddg(f'{search_term}', max_n=max_n)
+        #urls = search_images_ddg(f'{search_term}', max_n=max_n)
+        search_results = ddg_images(f'{search_term}', max_results=max_n)  # ddg_images returns a list of dicts
+        urls = [d['image'] for d in search_results] # grab values of 'image' field
         urls = [ x for x in urls if ("magpies" not in x) and ("charliebears" not in x) ]   # kludge for now to keep download_images from hanging
-        print(f"{search_term}: Got {len(urls)} image URLs. Downloading...")
-        print("   urls = ",urls)
+        print(f"{search_term}: Got {len(urls)} image URLs. Downloading images...", flush=True)
+        print("   urls = ",urls, flush=True)
         download_images(dest, urls=urls, preserve_filename=True)
-        print("    Images downloaded.")
+        print("    Images downloaded." , flush=True)
 
     print("Doing some more setting up & checking on the downloaded files...")
     fns = get_image_files(path)     # list image filenames
@@ -233,7 +236,7 @@ def scrape_for_me(dl_path, labels, search_suffix, erase_dir=True, max_n=100):
 
     #Extra: append a random string before suffix to avoid filename collisions if we change categories later
     fns = get_image_files(path)
-    print("Fns = ",fns)
+    print("Fns = ",fns, flush=True)
     for i, f in enumerate(fns):
         f_no_ext, ext = os.path.splitext(f)[0], f.suffix
         rnd_str = '_'+''.join(random.choice(string.ascii_letters) for i in range(10))

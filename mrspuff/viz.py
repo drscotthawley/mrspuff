@@ -255,7 +255,7 @@ class TrianglePlot2D_Bokeh():
         self.clear()
         return self.do_plot()
 
-# %% ../viz.ipynb 15
+# %% ../viz.ipynb 16
 class VizPreds(Callback):
     "Progress-like callback: call the bokeh triangle plot with each batch of training"
     order = ProgressCallback.order+1
@@ -299,7 +299,7 @@ class VizPreds(Callback):
             self.method(self.learn.viz_preds, self.learn.viz_targs, urls=urls, labels=self.dls.vocab, 
                 comment=f'Epoch {self.learn.epoch}', thumb_height=self.thumb_height).do_plot()
 
-# %% ../viz.ipynb 17
+# %% ../viz.ipynb 18
 def image_and_bars(values, labels, image_url, title="Probabilities", height=225, width=500):
     """Plot an image along with a bar graph"""
     fig = go.Figure()

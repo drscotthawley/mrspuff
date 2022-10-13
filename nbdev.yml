@@ -1,0 +1,9 @@
+project:
+  output-dir: docs
+
+website:
+  title: "mrspuff"
+  site-url: "https://drscotthawley.github.io/mrspuff/"
+  description: "A library for Deep Learning education."
+  repo-branch: master
+  repo-url: "https://github.com/drscotthawley/mrspuff/tree/master/"
